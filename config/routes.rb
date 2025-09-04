@@ -1,6 +1,11 @@
 Rails.application.routes.draw do
   devise_for :users
-  resources :posts
+
+  resources :users, only: [] do
+    resources :posts, only: [ :show, :update ]
+  end
+
+  resources :posts, only: [ :index, :new, :destroy, :create, :edit ]
   root "posts#index"
 
   # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html

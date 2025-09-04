@@ -10,8 +10,11 @@
       </ul>
     </div>
   <% end %>
-
   <div>
-    <%= form.submit %>
+    <%= form.label :content, "Post: " %>
+    <%= form.textarea :content, size: "70x5", value: post[:content],  placeholder: "Enter the text here" %>
+  </div>
+  <div>
+    <%= form.submit value: "Publish Post" %>
   </div>
 <% end %>
