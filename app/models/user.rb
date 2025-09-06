@@ -13,5 +13,5 @@ class User < ApplicationRecord
 
   has_many :posts, foreign_key: "author_id"
 
-  has_and_belongs_to_many :liked_posts, class_name: "Post"
+  has_and_belongs_to_many :liked_posts, class_name: "Post", join_table: "posts_likes"
 end

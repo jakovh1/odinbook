@@ -9,6 +9,29 @@ class PostsController < ApplicationController
 
   # GET /posts/1 or /posts/1.json
   def show
+    @post = Post.includes(:author).find(params[:id])
+  end
+
+  def like
+    @post = Post.find(params[:id])
+    if @post.likers << current_user
+      respond_to do |format|
+        format.turbo_stream { render "posts/like", locals: { post: @post } }
+      end
+    else
+
+    end
+  end
+
+  def dislike
+    @post = Post.find(params[:id])
+    if @post.likers.delete(current_user)
+      respond_to do |format|
+        format.turbo_stream { render "posts/like", locals: { post: @post } }
+      end
+    else
+
+    end
   end
 
   # GET /posts/new

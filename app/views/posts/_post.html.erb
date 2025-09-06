@@ -1,2 +1,11 @@
 <div id="<%= dom_id post %>">
+  <h4><%= post.author.username %></h4>
+  <p><%= post.content %></p>
+  <time datetime="<%= post.created_at.iso8601 %>"><%= post.created_at.strftime("%H:%M · %e. %b %Y.") %></time>
+  <div class="engagement-bar">
+    
+    <%= render "like", post: post %>
+    
+  </div>
 </div>
+<br />

@@ -65,3 +65,11 @@ end
 gem "rspec-rails", "~> 8.0"
 
 gem "devise", "~> 4.9"
+
+gem "rails_icons", "~> 1.4"
+
+gem "dartsass-rails", "~> 0.5.1"
+
+gem "bootstrap", "~> 5.3"
+
+gem "bootstrap-icons", "~> 1.0"
