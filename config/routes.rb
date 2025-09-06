@@ -1,8 +1,14 @@
 Rails.application.routes.draw do
   devise_for :users
-  resources :posts
-  root "posts#index"
 
+  resources :users, only: [] do
+    resources :posts, only: [ :show, :update ]
+  end
+
+  resources :posts, only: [ :index, :new, :destroy, :create ]
+  root "posts#index"
+  post "posts/:id/like", to: "posts#like", as: :like
+  delete "posts/:id/dislike", to: "posts#dislike", as: :dislike
   # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html
 
   # Reveal health status on /up that returns 200 if the app boots with no exceptions, otherwise 500.

@@ -11,5 +11,7 @@ class User < ApplicationRecord
   validates :email, length: { minimum: 6, maximum: 254 }, format: { with: URI::MailTo::EMAIL_REGEXP, message: "invalid email address format" }
   validates :password, length: { minimum: 8 }, if: :password_required?
 
-  has_many :posts
+  has_many :posts, foreign_key: "author_id"
+
+  has_and_belongs_to_many :liked_posts, class_name: "Post", join_table: "posts_likes"
 end
