@@ -2,7 +2,59 @@
 
 @import "bootstrap";
 
-form.button_to .like-button-background {
+form.button_to .engagement-button-background {
   background-color: unset;
   border: none;
+}
+
+
+
+// .post-preview:visited {
+//   color: unset;
+// }
+
+.post-preview-link {
+  text-decoration: none;
+  color: unset;
+}
+
+.comments div {
+  border: 1px black solid;
+}
+
+.engagement-bar {
+  display: flex;
+}
+
+.comment-modal-container {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 50;
+}
+
+.modal-content {
+  background: white;
+  padding: 2rem;
+  border-radius: 0.5rem;
+  max-width: 500px;
+  width: 100%;
+}
+
+.cancel-button {
+    background-color: #1530ff;
+    font-size: 12px;
+    color: white;
+    padding: 4px 8px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    float: right;
+    text-decoration: none;
+}
+.cancel-button:hover {
+    background-color: #2640fe;
 }

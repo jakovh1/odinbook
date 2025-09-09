@@ -1,0 +1,22 @@
+<% modal = modal ? modal : false %>
+<%= form_with(model: comment, url: post_comments_path(comment.post), data: {controller: "comment-form",
+                                                                     action: "turbo:submit-end->comment-form#clear",
+                                                                     comment_form_modal: modal }) do |form| %>
+  <% if comment.errors.any? %>
+    <div style="color: red">
+      <h2><%= pluralize(comment.errors.count, "error") %> prohibited this comment from being saved:</h2>
+
+      <ul>
+        <% comment.errors.each do |error| %>
+          <li><%= error.full_message %></li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div>
+    <%= form.text_field :content, placeholder: "Post your reply", autofocus: modal ? true : false %>
+  </div>
+ 
+  <%= form.submit "Reply" %>
+<% end %>

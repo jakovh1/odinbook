@@ -1,0 +1,8 @@
+<div id="<%= dom_id(post, :comment) %>">
+  <%= button_to new_post_comment_path(post.id), 
+                method: :get, 
+                data: { turbo_frame: "comment-modal" }, 
+                class: "engagement-button-background" do %>
+    <i class="bi bi-chat"></i> <%= post.comments.count %>
+  <% end %>
+</div>

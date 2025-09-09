@@ -1,11 +1,15 @@
 <div id="<%= dom_id post %>">
   <h4><%= post.author.username %></h4>
-  <p><%= post.content %></p>
-  <time datetime="<%= post.created_at.iso8601 %>"><%= post.created_at.strftime("%H:%M · %e. %b %Y.") %></time>
+  <%= link_to user_post_path(post.author_id, post.id), class: "post-preview-link", data: { turbo_prefetch: false } do %>
+    <div class="post-preview">
+      <p><%= post.content %></p>
+      <time datetime="<%= post.created_at.iso8601 %>"><%= post.created_at.strftime("%H:%M · %e. %b %Y.") %></time>
+    </div>
+  <% end %>
   <div class="engagement-bar">
     
     <%= render "like", post: post %>
-    
+    <%= render "comment-icon", post: post%>
   </div>
 </div>
 <br />
