@@ -1,0 +1,18 @@
+<%= turbo_frame_tag "comment-modal" do %>
+  <div class="comment-modal-container">
+    <div class="modal-content">
+      <button type="button" class="btn-close" data-controller="comment-form" data-action="comment-form#buttonClose" aria-label="Close"></button>
+
+      <%= render "form", comment: @comment, modal: true %>
+      <% if false %>
+        <div>
+          <%= link_to "Cancel", "#", data: {
+            controller: "comment-form",
+            action: "comment-form#buttonClose"
+          }, class: "cancel-button" %>
+        </div>
+      <% end %>
+    </div>
+  </div>
+<% end %>
+

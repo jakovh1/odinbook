@@ -1,0 +1,17 @@
+
+<p style="color: green"><%= notice %></p>
+
+
+<% content_for :title, "Comments" %>
+
+<h1>Comments</h1>
+
+<div id="comments">
+  <% comments.each do |comment| %>
+    <%= render comment %>
+  <% end %>
+</div>
+
+<% if false %>
+  <%= link_to "New comment", new_comment_path %>
+<% end %>

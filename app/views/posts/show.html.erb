@@ -1,6 +1,8 @@
-<p style="color: green"><%= notice %></p>
-
 <%= render @post %>
+
+<%= render "comments/form", comment: @comment %>
+
+<%= render "comments/index", comments: @post.comments %>
 
 <div>
   <%= link_to "Back to posts", posts_path %>

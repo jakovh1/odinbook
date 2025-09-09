@@ -10,6 +10,7 @@ class PostsController < ApplicationController
   # GET /posts/1 or /posts/1.json
   def show
     @post = Post.includes(:author).find(params[:id])
+    @comment = Comment.new(user: current_user, post: @post)
   end
 
   def like

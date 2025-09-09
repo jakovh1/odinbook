@@ -23,12 +23,11 @@
     <%= stylesheet_link_tag :app, "data-turbo-track": "reload" %>
     <%= javascript_importmap_tags %>
   </head>
-
   <body>
-    <% if false %>
-      <p class="notice"><%= notice %></p>
-      <p class="alert"><%= alert %></p>
-    <% end %>
+    <%= turbo_frame_tag "comment-modal" %>
+
+    <%= render "layouts/toast" %>
+   
     <%= render "devise/shared/sign_out" %>
     <%= yield %>
   </body>
