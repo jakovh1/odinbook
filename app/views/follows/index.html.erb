@@ -1,0 +1,16 @@
+<p style="color: green"><%= notice %></p>
+
+<% content_for :title, "Follows" %>
+
+<h1>Follows</h1>
+
+<div id="follows">
+  <% @follows.each do |follow| %>
+    <%= render follow %>
+    <p>
+      <%= link_to "Show this follow", follow %>
+    </p>
+  <% end %>
+</div>
+
+<%= link_to "New follow", new_follow_path %>
