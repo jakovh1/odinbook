@@ -55,6 +55,32 @@ form.button_to .engagement-button-background {
     float: right;
     text-decoration: none;
 }
+
 .cancel-button:hover {
     background-color: #2640fe;
+}
+
+.username {
+  text-decoration: none;
+}
+
+.username:hover {
+  text-decoration: underline;
+}
+
+.profile-page-username {
+
+}
+
+.post-partial-username {
+
+}
+
+.follow-button {
+  min-width: 70px;
+  max-width: 80px;
+}
+
+button {
+  transition: all 0.2s ease-in-out;
 }

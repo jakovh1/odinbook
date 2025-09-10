@@ -1,5 +1,7 @@
 <div id="<%= dom_id post %>">
-  <h4><%= post.author.username %></h4>
+  <%= link_to profile_path(post.author.username) do %>
+    <div class="username post-partial-username"><%= post.author.username %></div>
+  <% end %>
   <%= link_to user_post_path(post.author_id, post.id), class: "post-preview-link", data: { turbo_prefetch: false } do %>
     <div class="post-preview">
       <p><%= post.content %></p>
@@ -8,8 +10,8 @@
   <% end %>
   <div class="engagement-bar">
     
-    <%= render "like", post: post %>
-    <%= render "comment-icon", post: post%>
+    <%= render "posts/like", post: post %>
+    <%= render "posts/comment_icon", post: post%>
   </div>
 </div>
 <br />

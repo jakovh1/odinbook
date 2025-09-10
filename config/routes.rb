@@ -1,5 +1,7 @@
 Rails.application.routes.draw do
+  get "/:username", to: "users#show", as: :profile
   resources :follows
+  post "follow/:followee_id", to: "follows#create", as: :create_follow_request
   devise_for :users
 
   resources :users, only: [] do
@@ -10,7 +12,9 @@ Rails.application.routes.draw do
   resources :posts, only: [ :index, :new, :destroy, :create ] do
     resources :comments, only: [ :create, :new ]
   end
+
   resources :comments, only: [ :destroy ]
+
   root "posts#index"
 
   # Like and Unlike routes
