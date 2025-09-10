@@ -1,5 +1,4 @@
 Rails.application.routes.draw do
-  get "/:username", to: "users#show", as: :profile
   resources :follows
   post "follow/:followee_id", to: "follows#create", as: :create_follow_request
   devise_for :users
@@ -20,6 +19,7 @@ Rails.application.routes.draw do
   # Like and Unlike routes
   post "posts/:id/like", to: "posts#like", as: :like
   delete "posts/:id/dislike", to: "posts#dislike", as: :dislike
+  get "/:username", to: "users#show", as: :profile
 
 
   # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html
