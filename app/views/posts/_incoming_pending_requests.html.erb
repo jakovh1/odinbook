@@ -1,0 +1,18 @@
+<% if incoming_follow_requests.length > 0 %>
+  <div>Incoming Pending Requests</div>
+<% end %>
+<% incoming_follow_requests.each do |request| %>
+
+  <div class="user-item-request" id="user_<%= request.follower.username.parameterize %>">
+
+    <span class="request-username">
+        <%= link_to request.follower.username, profile_path(request.follower.username) %>
+    </span>
+
+    <span id="follow_<%= request.follower_id %>" class="request-action">
+      <%= render "incoming_requests_buttons", request: request %>
+    </span>
+    
+  </div>
+
+<% end %>

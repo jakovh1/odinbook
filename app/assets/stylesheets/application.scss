@@ -77,10 +77,25 @@ form.button_to .engagement-button-background {
 }
 
 .follow-button {
-  min-width: 70px;
-  max-width: 80px;
+  min-width: 80px;
 }
 
 button {
   transition: all 0.2s ease-in-out;
 }
+
+.user-item-request {
+  display: flex;
+  justify-content: space-evenly;
+}
+
+.request-action {
+  display: inherit;
+  flex: 3;
+  gap: 10em;
+}
+
+.request-username {
+  flex: 2;
+}
+

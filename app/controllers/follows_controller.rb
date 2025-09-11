@@ -1,22 +1,9 @@
 class FollowsController < ApplicationController
-  before_action :set_follow, only: %i[ show edit update destroy ]
+  before_action :set_follow, only: %i[ update destroy ]
 
   # GET /follows or /follows.json
   def index
     @follows = Follow.all
-  end
-
-  # GET /follows/1 or /follows/1.json
-  def show
-  end
-
-  # GET /follows/new
-  def new
-    @follow = Follow.new
-  end
-
-  # GET /follows/1/edit
-  def edit
   end
 
   # POST /follows or /follows.json
@@ -29,7 +16,7 @@ class FollowsController < ApplicationController
     end
 
     # Execute if the user exists and following with the given user does not exist.
-    unless following_exists?(followee, nil)
+    unless Follow.find_by(follower: current_user, followee: followee)
       create_following(followee)
       return
     end
@@ -40,64 +27,57 @@ class FollowsController < ApplicationController
 
   # PATCH/PUT /follows/1 or /follows/1.json
   def update
-    respond_to do |format|
-      if @follow.update(follow_params)
-        format.html { redirect_to @follow, notice: "Follow was successfully updated.", status: :see_other }
-        format.json { render :show, status: :ok, location: @follow }
+    if @follow.valid? && @follow.status == "pending"
+
+      if @follow.update(status: "accepted")
+        respond_to do |format|
+          format.turbo_stream do
+            render turbo_stream: turbo_stream.update("follow_#{@follow.follower.id}", partial: "posts/incoming_request_state", locals: { request_state: "Accepted" })
+          end
+        end
       else
-        format.html { render :edit, status: :unprocessable_entity }
-        format.json { render json: @follow.errors, status: :unprocessable_entity }
+        render_error_message
       end
     end
   end
 
   # DELETE /follows/1 or /follows/1.json
   def destroy
-    follow = following_exists?(nil, params[:id])
-
     # Executes if follow with the given id does not exist.
-    unless follow
+    unless @follow
       return render_turbo_stream_toast("You are not following given user.")
     end
 
-    delete_following(follow)
+    # Deletes the follow if it exists
+    delete_following
   end
 
   private
   # Use callbacks to share common setup or constraints between actions.
   def set_follow
-    @follow = Follow.find(params.expect(:id))
+    @follow = following_exists?
   end
 
-  # Only allow a list of trusted parameters through.
-  def follow_params
-    params.expect(follow: [ :follower_id, :followee_id, :status ])
+  # Checks if following exists for destroy action.
+  def following_exists?
+    Follow.find_by(follower: current_user, id: params[:id]) ||
+      Follow.find_by(followee: current_user, id: params[:id])
   end
 
   def render_turbo_stream_toast(flash_message)
     flash.now[:alert] = flash_message
     respond_to do |format|
-      turbo_stream.replace("toast", partial: "layouts/toast")
+      format.turbo_stream do
+        render turbo_stream: turbo_stream.update("toast", partial: "layouts/toast")
+      end
     end
-  end
-
-  # Checks if following exists.
-  def following_exists?(followee, follow_id)
-    return Follow.find_by(follower: current_user, followee: followee) if follow_id.nil?
-
-    Follow.find_by(follower: current_user, id: follow_id)
-  end
-
-  # Builds follow.
-  def build_follow(followee)
-    current_user.users_following.build(followee: followee, status: "pending")
   end
 
   def create_following(followee)
     respond_to do |format|
       format.turbo_stream do
-        if build_follow(followee).save
-          render turbo_stream: turbo_stream.replace("follow-container", partial: "users/follow_button", locals: { user: followee })
+        if current_user.users_following.build(followee: followee, status: "pending").save
+          render turbo_stream: turbo_stream.update("follow-container-#{followee.id}", partial: "users/follow_button", locals: { user: followee })
         else
           render_error_message
         end
@@ -105,11 +85,15 @@ class FollowsController < ApplicationController
     end
   end
 
-  def delete_following(follow)
+  def delete_following
     respond_to do |format|
       format.turbo_stream do
-        if follow.destroy
-          render turbo_stream: turbo_stream.replace("follow-container", partial: "users/follow_button", locals: { user: follow.followee })
+        if @follow.destroy
+          if @follow.follower == current_user
+            render turbo_stream: turbo_stream.update("follow-container-#{@follow.followee_id}", partial: "users/follow_button", locals: { user: @follow.followee })
+          else
+            render turbo_stream: turbo_stream.update("follow_#{@follow.follower.id}", partial: "posts/incoming_request_state", locals: { request_state: "Declined" })
+          end
         else
           render_error_message
         end
@@ -119,6 +103,10 @@ class FollowsController < ApplicationController
 
   def render_error_message
     flash.now[:alert] = "An error occurred, please try again."
-    render turbo_stream: turbo_stream.replace("toast", partial: "layouts/toast")
+    respond_to do |format|
+      format.turbo_stream do
+        render turbo_stream: turbo_stream.update("toast", partial: "layouts/toast")
+      end
+    end
   end
 end

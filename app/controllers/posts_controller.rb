@@ -4,7 +4,9 @@ class PostsController < ApplicationController
 
   # GET /posts or /posts.json
   def index
-    @posts = Post.all
+    followees_ids = current_user.followees.where(follows: { status: "accepted" }).pluck(:id)
+    @posts = Post.where(author: followees_ids + [ current_user.id ])
+    @incoming_follow_requests = Follow.incoming_follow_requests(current_user).includes(:follower)
   end
 
   # GET /posts/1 or /posts/1.json

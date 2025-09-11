@@ -2,7 +2,7 @@
   <%= @user.username %>
 </div>
 
-<div id="follow-container" class="follow-button-container">
+<div id="follow-container-<%= @user.id %>" class="follow-button-container">
   <%= render "follow_button", user: @user %>
 </div>
 

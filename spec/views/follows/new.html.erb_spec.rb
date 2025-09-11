@@ -13,7 +13,6 @@ RSpec.describe "follows/new", type: :view do
     render
 
     assert_select "form[action=?][method=?]", follows_path, "post" do
-
       assert_select "input[name=?]", "follow[follower_id]"
 
       assert_select "input[name=?]", "follow[followee_id]"

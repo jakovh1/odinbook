@@ -1,9 +1,10 @@
 Rails.application.routes.draw do
-  resources :follows
+  resources :follows, only: [ :update, :create, :destroy ]
   post "follow/:followee_id", to: "follows#create", as: :create_follow_request
+
   devise_for :users
 
-  resources :users, only: [] do
+  resources :users, only: [ :index ] do
     resources :posts, only: [ :show ]
     resources :comments, only: [ :show ]
   end
