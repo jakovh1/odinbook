@@ -22,26 +22,23 @@ class CommentsController < ApplicationController
 
   # POST /comments or /comments.json
   def create
-    puts params.inspect
     @post = Post.find(params[:post_id])
-    @comment = @post.comments.build(user: current_user, content: params[:comment][:content])
+    @comment = @post.comments.build(user: current_user, content: params[:comment][:content].strip)
 
-    respond_to do |format|
-      if @comment.save
-        flash.now[:alert] = "Your reply has been sent."
+    if @comment.save
+      flash.now[:alert] = "Your reply has been sent."
+      respond_to do |format|
         format.turbo_stream do
           render turbo_stream: [
                                   turbo_stream.replace("toast", partial: "layouts/toast"),
                                   turbo_stream.prepend("comments", partial: "comments/comment", locals: { comment: @comment }),
-                                  turbo_stream.replace("comment_post_#{@post.id}", partial: "posts/comment-icon", locals: { post: @post })
-                               ]
+                                  turbo_stream.replace("comment_post_#{@post.id}", partial: "posts/comment_icon", locals: { post: @post })
+                                ]
         end
-
-      else
-        flash.now[:alert] = "An error occurred, please try again."
-        # format.html { render :new, status: :unprocessable_entity }
-        # format.json { render json: @comment.errors, status: :unprocessable_entity }
       end
+
+    else
+      render :new
     end
   end
 

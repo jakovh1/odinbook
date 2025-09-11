@@ -1,0 +1,13 @@
+<span>
+  <%= button_to follow_path(request.id),
+                method: :patch do %>
+    Accept
+  <% end %>
+</span>
+
+<span>
+  <%= button_to follow_path(request.id),
+                method: :delete do %>
+    Decline
+  <% end %>
+</span>

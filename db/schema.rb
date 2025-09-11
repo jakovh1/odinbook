@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2025_09_08_101955) do
+ActiveRecord::Schema[8.0].define(version: 2025_09_09_171328) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
 
@@ -23,6 +23,20 @@ ActiveRecord::Schema[8.0].define(version: 2025_09_08_101955) do
     t.index ["post_id"], name: "index_comments_on_post_id"
     t.index ["user_id"], name: "index_comments_on_user_id"
     t.check_constraint "length(content::text) >= 1 AND length(content::text) <= 40000", name: "content_length_between_1_and_40000"
+  end
+
+  create_table "follows", force: :cascade do |t|
+    t.bigint "follower_id", null: false
+    t.bigint "followee_id", null: false
+    t.string "status", default: "pending", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["followee_id", "status"], name: "index_follows_on_followee_id_and_status"
+    t.index ["followee_id"], name: "index_follows_on_followee_id"
+    t.index ["follower_id", "followee_id"], name: "index_follows_on_follower_id_and_followee_id", unique: true
+    t.index ["follower_id", "status"], name: "index_follows_on_follower_id_and_status"
+    t.index ["follower_id"], name: "index_follows_on_follower_id"
+    t.check_constraint "status::text = ANY (ARRAY['pending'::character varying, 'accepted'::character varying, 'blocked'::character varying]::text[])", name: "status_check"
   end
 
   create_table "posts", force: :cascade do |t|
@@ -58,6 +72,8 @@ ActiveRecord::Schema[8.0].define(version: 2025_09_08_101955) do
 
   add_foreign_key "comments", "posts"
   add_foreign_key "comments", "users"
+  add_foreign_key "follows", "users", column: "followee_id"
+  add_foreign_key "follows", "users", column: "follower_id"
   add_foreign_key "posts", "users", column: "author_id"
   add_foreign_key "posts_likes", "posts"
   add_foreign_key "posts_likes", "users"

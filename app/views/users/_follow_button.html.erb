@@ -1,0 +1,18 @@
+<% if user.id != current_user.id %>
+
+  <% follow_object = Follow.find_by(follower_id: current_user.id, followee_id: user.id) %>
+  <% follow_helper_method = follow_object ? follow_path(follow_object.id) : create_follow_request_path(user.id) %>
+  <% rest_method = follow_object ? :delete : :post %>
+  <% data_hash = follow_object ? {
+                                    controller: "follow-button",
+                                    action: "mouseover->follow-button#hover mouseleave->follow-button#reset"
+                                  } : {} %>
+  <% css_class = follow_object ? "unfollow_button" : "follow-request-button" %>
+
+  <%= button_to follow_helper_method,
+                data: data_hash,
+                method: rest_method,
+                class: "follow-button #{css_class}" do %>
+    <%= follow_button_text(follow_object) %>
+  <% end%>
+<% end %>

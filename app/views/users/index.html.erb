@@ -1,0 +1,8 @@
+<% @users.each do |user| %>
+  <div style="display: flex">
+    <span><%= user.username %></span>
+    <div id="follow-container-<%= user.id %>" class="follow-button-container">
+      <%= render "follow_button", user: user %>
+    </div>
+  </div>
+<% end %>

@@ -1,0 +1,14 @@
+<div class="username profile-page-username">
+  <%= @user.username %>
+</div>
+
+<div id="follow-container-<%= @user.id %>" class="follow-button-container">
+  <%= render "follow_button", user: @user %>
+</div>
+
+<div class="profile-page-posts">
+  <% @user.posts.each do |post| %>
+    <%= render "posts/post", post: post %>
+  <% end %>
+</div>
+
