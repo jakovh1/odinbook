@@ -87,15 +87,24 @@ button {
 .user-item-request {
   display: flex;
   justify-content: space-evenly;
+  align-items: center;
 }
 
 .request-action {
   display: inherit;
-  flex: 3;
   gap: 10em;
 }
 
-.request-username {
-  flex: 2;
+.avatar img {
+  border-radius: 40px;
+}
+
+.timeline-post {
+  display: flex;
+  gap: 20px;
+}
+
+.timeline-post .avatar {
+  grid-column: 1 / -1;
 }
 

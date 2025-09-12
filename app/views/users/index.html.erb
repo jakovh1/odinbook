@@ -1,5 +1,8 @@
 <% @users.each do |user| %>
   <div style="display: flex">
+    <span class="avatar post-user-avatar">
+      <%= image_tag(gravatar_avatar_url(user.email)) %>
+    </span>
     <span><%= user.username %></span>
     <div id="follow-container-<%= user.id %>" class="follow-button-container">
       <%= render "follow_button", user: user %>

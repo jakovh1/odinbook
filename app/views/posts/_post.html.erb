@@ -1,17 +1,22 @@
-<div id="<%= dom_id post %>">
-  <%= link_to profile_path(post.author.username) do %>
-    <div class="username post-partial-username"><%= post.author.username %></div>
-  <% end %>
-  <%= link_to user_post_path(post.author_id, post.id), class: "post-preview-link", data: { turbo_prefetch: false } do %>
-    <div class="post-preview">
-      <p><%= post.content %></p>
-      <time datetime="<%= post.created_at.iso8601 %>"><%= post.created_at.strftime("%H:%M · %e. %b %Y.") %></time>
-    </div>
-  <% end %>
-  <div class="engagement-bar">
+<div id="<%= dom_id post %>" class="timeline-post">
+  <div class="avatar post-user-avatar">
+    <%= image_tag(gravatar_avatar_url(post.author.email)) %>
+  </div>
+  <div>
+    <%= link_to profile_path(post.author.username) do %>
+      <div class="username post-partial-username"><%= post.author.username %></div>
+    <% end %>
+    <%= link_to user_post_path(post.author_id, post.id), class: "post-preview-link", data: { turbo_prefetch: false } do %>
+      <div class="post-preview">
+        <p><%= post.content %></p>
+        <time datetime="<%= post.created_at.iso8601 %>"><%= post.created_at.strftime("%H:%M · %e. %b %Y.") %></time>
+      </div>
+    <% end %>
+    <div class="engagement-bar">
     
-    <%= render "posts/like", post: post %>
-    <%= render "posts/comment_icon", post: post%>
+      <%= render "posts/like", post: post %>
+      <%= render "posts/comment_icon", post: post%>
+    </div>
   </div>
 </div>
 <br />
