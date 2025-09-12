@@ -5,9 +5,8 @@
 
   <div class="user-item-request" id="user_<%= request.follower.username.parameterize %>">
 
-    <span class="request-username">
-        <%= link_to request.follower.username, profile_path(request.follower.username) %>
-    </span>
+    <%= image_tag(gravatar_avatar_url(request.follower.email)) %>
+    <%= link_to request.follower.username, profile_path(request.follower.username) %>
 
     <span id="follow_<%= request.follower_id %>" class="request-action">
       <%= render "incoming_requests_buttons", request: request %>
