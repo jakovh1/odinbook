@@ -1,0 +1,12 @@
+body .welcome-mail-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  background-color: #edeff1;
+  width: 66vw;
+  max-width: 600px;
+}
+
+body .welcome-mail-container .header h2 {
+  align-self: center;
+}
