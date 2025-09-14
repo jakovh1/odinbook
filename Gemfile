@@ -58,6 +58,7 @@ group :development do
   gem "guard-livereload", require: false
   gem "guard"
   gem "listen"
+  gem "letter_opener"
 end
 
 group :test do
@@ -75,3 +76,5 @@ gem "dartsass-rails", "~> 0.5.1"
 gem "bootstrap", "~> 5.3"
 
 gem "bootstrap-icons", "~> 1.0"
+
+gem "roadie-rails", "~> 3.3"
