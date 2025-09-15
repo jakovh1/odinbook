@@ -1,4 +1,4 @@
-<%= form_with(model: post) do |form| %>
+<%= form_with(model: post, data: {controller: 'post-form'}) do |form| %>
   <% if post.errors.any? %>
     <div style="color: red">
       <h2><%= pluralize(post.errors.count, "error") %> prohibited this post from being saved:</h2>
@@ -12,9 +12,29 @@
   <% end %>
   <div>
     <%= form.label :content, "Post: " %>
-    <%= form.textarea :content, size: "70x5", value: post[:content],  placeholder: "Enter the text here" %>
+    <%= form.textarea :content,
+                      size: "70x5",
+                      value: post[:content],
+                      placeholder: "Enter the text here",
+                      data: {
+                        'post-form-target': 'textInput',
+                        'action': 'input->post-form#textChanged'
+                      } %>
   </div>
   <div>
-    <%= form.submit value: "Publish Post" %>
+    <%=form.label :image, style: "display: block" %>
+    <%= form.file_field :image, 
+                        value: post[:image],
+                        data: {
+                          'post-form-target': 'fileInput',
+                          'action': 'change->post-form#fileChanged'
+                        } %>
+  </div>
+  <div>
+    <%= form.submit value: "Publish Post",
+                    data: {
+                      'post-form-target': 'submitButton'
+                    },
+                    disabled: true %>
   </div>
 <% end %>

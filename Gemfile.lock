@@ -134,6 +134,7 @@ GEM
     et-orbi (1.3.0)
       tzinfo
     eventmachine (1.2.7)
+    fastimage (2.4.0)
     ffi (1.17.2-aarch64-linux-gnu)
     ffi (1.17.2-aarch64-linux-musl)
     ffi (1.17.2-arm-linux-gnu)
@@ -521,6 +522,7 @@ DEPENDENCIES
   dartsass-rails (~> 0.5.1)
   debug
   devise (~> 4.9)
+  fastimage (~> 2.4)
   guard
   guard-livereload
   importmap-rails

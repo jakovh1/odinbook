@@ -8,7 +8,13 @@
     <% end %>
     <%= link_to user_post_path(post.author_id, post.id), class: "post-preview-link", data: { turbo_prefetch: false } do %>
       <div class="post-preview">
-        <p><%= post.content %></p>
+
+        <% if post.postable_type == "TextPost" %>
+          <%= render "text_post", post: post.postable %>
+        <% else %>
+          <%= render "photo_post", post: post.postable %>
+        <% end %>
+
         <time datetime="<%= post.created_at.iso8601 %>"><%= post.created_at.strftime("%H:%M · %e. %b %Y.") %></time>
       </div>
     <% end %>

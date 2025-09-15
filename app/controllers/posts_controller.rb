@@ -48,15 +48,28 @@ class PostsController < ApplicationController
 
   # POST /posts or /posts.json
   def create
-    @post = Post.new(content: post_params[:content], author_id: current_user.id)
+    if post_params[:content].present?
+      if is_url?(post_params[:content]) && FastImage.type(post_params[:content])
+        photo_post = PhotoPost.create!(image_url: post_params[:content])
+        @post = Post.new(postable: photo_post, author: current_user)
+      else
+        text_post = TextPost.create!(post_params)
+        @post = Post.new(postable: text_post, author: current_user)
+      end
+    elsif post_params[:image].present?
+      photo_post = PhotoPost.create!(post_params)
+      @post = Post.new(postable: photo_post, author: current_user)
+    end
+
 
     respond_to do |format|
-      if @post.save
+      if @post&.save
         format.html { redirect_to user_post_path(current_user.id, @post.id), notice: "Post was successfully created." }
         format.json { render :show, status: :created, location: @post }
       else
-        format.html { render :new, status: :unprocessable_entity }
-        format.json { render json: @post.errors, status: :unprocessable_entity }
+        @post = Post.new
+        format.html { render :new, status: :unprocessable_content }
+        format.json { render json: @post.errors, status: :unprocessable_content }
       end
     end
   end
@@ -92,6 +105,19 @@ class PostsController < ApplicationController
 
     # Only allow a list of trusted parameters through.
     def post_params
-      params.expect(post: [ :content ])
+      return params.require(:post).permit(:content) if params[:post]&.[](:content).present?
+
+      return params.require(:post).permit(:image) if params[:post]&.[](:image).present?
+
+      params
+    end
+
+    def is_url?(submitted_content)
+      begin
+        uri = URI.parse(submitted_content)
+        uri.is_a?(URI::HTTP) || uri.is_a?(URI::HTTPS)
+      rescue URI::InvalidURIError
+        false
+      end
     end
 end
