@@ -1,0 +1,5 @@
+<% if post.image_url.present? %>
+  <%= image_tag(post.image_url, size:'450x300', style: "display: block;") %>
+<% else %>
+  <%= image_tag post.image, size: "450x300", style: "display: block;" %>
+<% end %>

@@ -13,7 +13,7 @@ class User < ApplicationRecord
   validates :password, length: { minimum: 8 }, if: :password_required?
 
   # Posts and Comments associations
-  has_many :posts, foreign_key: "author_id"
+  has_many :posts, foreign_key: "author_id", as: :postable
   has_many :comments, foreign_key: "user_id"
 
   # Followers - Followee associations
@@ -25,4 +25,6 @@ class User < ApplicationRecord
 
   # Like (User-Post) association
   has_and_belongs_to_many :liked_posts, class_name: "Post", join_table: "posts_likes"
+
+  has_one_attached :image
 end
