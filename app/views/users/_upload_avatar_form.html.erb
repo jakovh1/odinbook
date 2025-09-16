@@ -1,0 +1,20 @@
+<%= form_tag(avatar_user_path(user), method: :patch,
+                                     multipart: true,
+                                     data: {
+                                        controller: 'upload-avatar',
+                                        'upload-avatar-target': 'form'
+                                     }) do %> 
+  <label for="avatarInput" class="btn btn-outline">
+    <i class="bi bi-pencil-square" title="Change avatar"></i>
+  </label>
+  <%= file_field_tag :image, 
+                  value: :image,
+                  id: 'avatarInput',
+                  class: 'd-none',
+                  data: {
+                    action: "change->upload-avatar#fileChanged",
+                    'upload-avatar-target': 'fileInput'
+                  },
+                  required: true 
+  %>
+<% end %>

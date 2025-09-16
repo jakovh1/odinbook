@@ -2,6 +2,7 @@
   <nav>
     <ul>
       <li><%= link_to "Other users", users_path %></li>
+      <li><%= link_to "Profile", profile_path(current_user.username) %></li>
     </ul>
   </nav>
 <% end %>
