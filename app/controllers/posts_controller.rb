@@ -57,6 +57,8 @@ class PostsController < ApplicationController
         @post = Post.new(postable: text_post, author: current_user)
       end
     elsif post_params[:image].present?
+      puts post_params[:image]
+      puts FastImage.type(post_params[:image])
       photo_post = PhotoPost.create!(post_params)
       @post = Post.new(postable: photo_post, author: current_user)
     end

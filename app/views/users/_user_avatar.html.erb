@@ -1,0 +1,7 @@
+<% if user.image.attached? %>
+  <%= image_tag(user.image, size: "80x80") %>
+<% else %>
+  <%= image_tag(gravatar_avatar_url(user.email)) %>
+<% end %>
+
+<%= render "upload_avatar_form", user: user %>

@@ -1,5 +1,5 @@
-<div class="avatar show-user-avatar">
-  <%= image_tag(gravatar_avatar_url(@user.email)) %>
+<div id="show-view-avatar" class="avatar show-user-avatar">
+  <%= render "user_avatar", user: @user %>
 </div>
 <div class="username profile-page-username">
   <%= @user.username %>
