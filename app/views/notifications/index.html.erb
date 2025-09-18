@@ -1,0 +1,9 @@
+<div class="notifications-container">
+  <div><h3>Notifications</h3></div>
+  <div class="notifications-list">
+    <% @notifications.each do |notification| %>
+      <%= render "notification", notification: notification %>
+    <% end %>
+  </div>
+</div>
+

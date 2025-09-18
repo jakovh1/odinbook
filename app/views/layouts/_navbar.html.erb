@@ -3,6 +3,12 @@
     <ul>
       <li><%= link_to "Other users", users_path %></li>
       <li><%= link_to "Profile", profile_path(current_user.username) %></li>
+      <li>
+        <button class="notifications-button">
+          <i class="bi bi-bell"></i>
+        </button>
+        <%= link_to "Notifications", notifications_path %>
+      </li>
     </ul>
   </nav>
 <% end %>

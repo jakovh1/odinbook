@@ -1,0 +1,5 @@
+<% if notification.notifiable_type == 'Like' %>
+  <%= link_to user_post_path(notification.recipient, notification.notifiable.post) do %>
+    <p>User <%= notification.submitter.username %> has liked your post.</p>
+  <% end %>
+<% end %>

@@ -2,7 +2,8 @@
 
 @import "bootstrap";
 
-form.button_to .engagement-button-background {
+form.button_to .engagement-button-background,
+.notifications-button {
   background-color: unset;
   border: none;
 }
@@ -100,5 +101,10 @@ button {
 
 .timeline-post .avatar {
   grid-column: 1 / -1;
+}
+
+.notifications-container {
+  background-color: lightgrey;
+  border: 1px solid grey;
 }
 
