@@ -1,6 +1,8 @@
 Rails.application.routes.draw do
-  resources :follows, only: [ :update, :create, :destroy ]
-  post "follow/:followee_id", to: "follows#create", as: :create_follow_request
+  # Notifications route
+  get "notifications", to: "notifications#index", as: :notifications
+
+  root "posts#index"
 
   devise_for :users, controllers: {
     registrations: "users/registrations"
@@ -15,21 +17,27 @@ Rails.application.routes.draw do
       patch :avatar, to: "users#update_avatar"
     end
   end
-
+  resources :follows, only: [ :update, :create, :destroy ]
   resources :posts, only: [ :index, :new, :destroy, :create ] do
     resources :comments, only: [ :create, :new ]
   end
 
   resources :comments, only: [ :destroy ]
 
-  root "posts#index"
+
+
+  post "follow/:followee_id", to: "follows#create", as: :create_follow_request
 
   # Like and Unlike routes
   post "posts/:id/like", to: "posts#like", as: :like
   delete "posts/:id/dislike", to: "posts#dislike", as: :dislike
 
+  patch "notifications/:id/update", to: "notifications#update", as: :notification_update
+
   # User show route
-  get "/:username", to: "users#show", as: :profile
+  get "/:username", to: "users#show", as: :profile, constraints: { id: /[^notifications]/ }
+
+
 
   # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html
 

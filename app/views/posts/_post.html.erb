@@ -10,9 +10,9 @@
       <div class="post-preview">
 
         <% if post.postable_type == "TextPost" %>
-          <%= render "text_post", post: post.postable %>
+          <%= render "posts/text_post", post: post.postable %>
         <% else %>
-          <%= render "photo_post", post: post.postable %>
+          <%= render "posts/photo_post", post: post.postable %>
         <% end %>
 
         <time datetime="<%= post.created_at.iso8601 %>"><%= post.created_at.strftime("%H:%M · %e. %b %Y.") %></time>

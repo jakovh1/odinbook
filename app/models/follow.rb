@@ -4,4 +4,6 @@ class Follow < ApplicationRecord
 
   scope :incoming_follow_requests, ->(user) { where(followee: user, status: "pending") }
   scope :outgoing_follow_requests, ->(user) { where(follower: user, status: "pending") }
+
+  has_one :notification, as: :notifiable, dependent: :destroy
 end

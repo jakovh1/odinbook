@@ -17,23 +17,39 @@ class PostsController < ApplicationController
 
   def like
     @post = Post.find(params[:id])
-    if @post.likers << current_user
+    like = Like.new(post: @post, user: current_user)
+
+    if like.save
+
       respond_to do |format|
         format.turbo_stream { render "posts/like", locals: { post: @post } }
       end
-    else
 
+      ::NotificationCreator.call(submitter: current_user, recipient: @post.author, notifiable: like)
+
+    else
+      flash.now[:alert] = "An error occurred, please try again."
+      respond_to do |format|
+        format.turbo_stream do
+          render turbo_stream: turbo_stream.update("toast", partial: "layouts/toast")
+        end
+      end
     end
   end
 
   def dislike
     @post = Post.find(params[:id])
-    if @post.likers.delete(current_user)
+    if @post&.likers.delete(current_user)
       respond_to do |format|
         format.turbo_stream { render "posts/like", locals: { post: @post } }
       end
     else
-
+      flash.now[:alert] = "An error occurred, please try again."
+      respond_to do |format|
+        format.turbo_stream do
+          render turbo_stream: turbo_stream.update("toast", partial: "layouts/toast")
+        end
+      end
     end
   end
 

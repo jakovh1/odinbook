@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2025_09_15_145152) do
+ActiveRecord::Schema[8.0].define(version: 2025_09_17_150808) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
 
@@ -67,6 +67,29 @@ ActiveRecord::Schema[8.0].define(version: 2025_09_15_145152) do
     t.check_constraint "status::text = ANY (ARRAY['pending'::character varying, 'accepted'::character varying, 'blocked'::character varying]::text[])", name: "status_check"
   end
 
+  create_table "likes", force: :cascade do |t|
+    t.bigint "post_id", null: false
+    t.bigint "user_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["post_id"], name: "index_likes_on_post_id"
+    t.index ["user_id", "post_id"], name: "index_likes_on_user_id_and_post_id", unique: true
+    t.index ["user_id"], name: "index_likes_on_user_id"
+  end
+
+  create_table "notifications", force: :cascade do |t|
+    t.bigint "submitter_id", null: false
+    t.bigint "recipient_id", null: false
+    t.string "notifiable_type", null: false
+    t.bigint "notifiable_id", null: false
+    t.boolean "is_read", default: false, null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["notifiable_type", "notifiable_id"], name: "index_notifications_on_notifiable"
+    t.index ["recipient_id"], name: "index_notifications_on_recipient_id"
+    t.index ["submitter_id"], name: "index_notifications_on_submitter_id"
+  end
+
   create_table "photo_posts", force: :cascade do |t|
     t.string "caption"
     t.datetime "created_at", null: false
@@ -83,14 +106,6 @@ ActiveRecord::Schema[8.0].define(version: 2025_09_15_145152) do
     t.index ["author_id"], name: "index_posts_on_author_id"
     t.index ["created_at"], name: "index_posts_on_created_at"
     t.index ["postable_type", "postable_id"], name: "index_posts_on_postable"
-  end
-
-  create_table "posts_likes", force: :cascade do |t|
-    t.bigint "user_id", null: false
-    t.bigint "post_id", null: false
-    t.index ["post_id"], name: "index_posts_likes_on_post_id"
-    t.index ["user_id", "post_id"], name: "index_posts_likes_on_user_id_and_post_id", unique: true
-    t.index ["user_id"], name: "index_posts_likes_on_user_id"
   end
 
   create_table "text_posts", force: :cascade do |t|
@@ -119,7 +134,9 @@ ActiveRecord::Schema[8.0].define(version: 2025_09_15_145152) do
   add_foreign_key "comments", "users"
   add_foreign_key "follows", "users", column: "followee_id"
   add_foreign_key "follows", "users", column: "follower_id"
+  add_foreign_key "likes", "posts"
+  add_foreign_key "likes", "users"
+  add_foreign_key "notifications", "users", column: "recipient_id"
+  add_foreign_key "notifications", "users", column: "submitter_id"
   add_foreign_key "posts", "users", column: "author_id"
-  add_foreign_key "posts_likes", "posts"
-  add_foreign_key "posts_likes", "users"
 end

@@ -1,0 +1,3 @@
+<span id="notification-counter">
+  <%= current_user.notifications.unread.count > 0 ? current_user.notifications.count : '' %>
+</span>
