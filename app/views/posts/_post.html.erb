@@ -19,9 +19,8 @@
       </div>
     <% end %>
     <div class="engagement-bar">
-    
-      <%= render "posts/like", post: post %>
-      <%= render "posts/comment_icon", post: post%>
+      <%= render "posts/like", post: post, user: user %>
+      <%= render "posts/comment_icon", post: post %>
     </div>
   </div>
 </div>

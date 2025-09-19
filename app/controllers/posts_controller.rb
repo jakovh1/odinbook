@@ -5,7 +5,7 @@ class PostsController < ApplicationController
   # GET /posts or /posts.json
   def index
     followees_ids = current_user.followees.where(follows: { status: "accepted" }).pluck(:id)
-    @posts = Post.where(author: followees_ids + [ current_user.id ])
+    @posts = Post.where(author: followees_ids + [ current_user.id ]).order(created_at: :desc)
     @incoming_follow_requests = Follow.incoming_follow_requests(current_user).includes(:follower)
   end
 
@@ -22,7 +22,9 @@ class PostsController < ApplicationController
     if like.save
 
       respond_to do |format|
-        format.turbo_stream { render "posts/like", locals: { post: @post } }
+        format.turbo_stream do
+          render turbo_stream: turbo_stream.replace("like_post_#{@post.id}", partial: "posts/like", locals: { post: @post, user: like.user })
+        end
       end
 
       ::NotificationCreator.call(submitter: current_user, recipient: @post.author, notifiable: like)
@@ -39,10 +41,15 @@ class PostsController < ApplicationController
 
   def dislike
     @post = Post.find(params[:id])
-    if @post&.likers.delete(current_user)
+    like = Like.find_by(post: @post, user: current_user)
+    if like&.destroy
+
       respond_to do |format|
-        format.turbo_stream { render "posts/like", locals: { post: @post } }
+        format.turbo_stream do
+          render turbo_stream: turbo_stream.replace("like_post_#{@post.id}", partial: "posts/like", locals: { post: @post, user: current_user })
+        end
       end
+
     else
       flash.now[:alert] = "An error occurred, please try again."
       respond_to do |format|
@@ -83,11 +90,18 @@ class PostsController < ApplicationController
     respond_to do |format|
       if @post&.save
         format.html { redirect_to user_post_path(current_user.id, @post.id), notice: "Post was successfully created." }
-        format.json { render :show, status: :created, location: @post }
+
+        @post.author.followers.each do |follower|
+          Turbo::StreamsChannel.broadcast_prepend_later_to(
+                                                            follower,
+                                                            target: "posts",
+                                                            partial: "posts/post",
+                                                            locals: { post: @post, user: follower }
+                                                          )
+        end
       else
         @post = Post.new
         format.html { render :new, status: :unprocessable_content }
-        format.json { render json: @post.errors, status: :unprocessable_content }
       end
     end
   end

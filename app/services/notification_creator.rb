@@ -3,7 +3,8 @@ class NotificationCreator
     begin
 
       if submitter.id != recipient.id
-        notification = Notification.create!(submitter: submitter, recipient: recipient, notifiable: notifiable)
+
+        notification = create_notification_for(notifiable: notifiable, submitter: submitter, recipient: recipient)
 
         Turbo::StreamsChannel.broadcast_update_later_to(
                                                           recipient,
@@ -21,4 +22,16 @@ class NotificationCreator
       Rails.logger.error("PostgreSQL error during notification creation: #{e.class} - #{e.message}")
     end
   end
+
+  def self.create_notification_for(notifiable:, submitter:, recipient:)
+    if notifiable.respond_to?(:notification)
+      notifiable.create_notification!(submitter: submitter, recipient: recipient)
+    elsif notifiable.respond_to?(:notifications)
+      notifiable.notifications.create!(submitter: submitter, recipient: recipient)
+    else
+      raise ArgumentError, "Notifiable object does not support notification creation"
+    end
+  end
+
+  private_class_method :create_notification_for
 end
