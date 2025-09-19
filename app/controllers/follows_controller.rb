@@ -74,10 +74,12 @@ class FollowsController < ApplicationController
   end
 
   def create_following(followee)
+    follow = current_user.users_following.build(followee: followee, status: "pending")
     respond_to do |format|
       format.turbo_stream do
-        if current_user.users_following.build(followee: followee, status: "pending").save
+        if follow.save
           render turbo_stream: turbo_stream.update("follow-container-#{followee.id}", partial: "users/follow_button", locals: { user: followee })
+          ::NotificationCreator.call(submitter: current_user, recipient: followee, notifiable: follow)
         else
           render_error_message
         end

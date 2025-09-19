@@ -37,6 +37,8 @@ class CommentsController < ApplicationController
         end
       end
 
+      ::NotificationCreator.call(submitter: current_user, recipient: @post.author, notifiable: @comment)
+
     else
       render :new
     end

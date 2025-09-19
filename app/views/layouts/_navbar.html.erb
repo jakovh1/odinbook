@@ -1,13 +1,18 @@
 <% if user_signed_in? %>
   <nav>
     <ul>
+      <li><%= link_to "Home", root_path %></li>
       <li><%= link_to "Other users", users_path %></li>
       <li><%= link_to "Profile", profile_path(current_user.username) %></li>
       <li>
-        <button class="notifications-button">
-          <i class="bi bi-bell"></i>
-        </button>
-        <%= link_to "Notifications", notifications_path %>
+        <%= link_to notifications_path do %>
+          <button class="notifications-button">
+            <i class="bi bi-bell icon-size"></i>
+            <%= turbo_stream_from current_user %>
+            <%= render "notifications/notifications_counter" %>        
+          </button>
+          Notifications
+        <% end %>
       </li>
     </ul>
   </nav>

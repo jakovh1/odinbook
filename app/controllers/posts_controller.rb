@@ -21,11 +21,12 @@ class PostsController < ApplicationController
 
     if like.save
 
-      ::NotificationCreator.call(submitter: current_user, recipient: @post.author, notifiable: like)
-
       respond_to do |format|
         format.turbo_stream { render "posts/like", locals: { post: @post } }
       end
+
+      ::NotificationCreator.call(submitter: current_user, recipient: @post.author, notifiable: like)
+
     else
       flash.now[:alert] = "An error occurred, please try again."
       respond_to do |format|
