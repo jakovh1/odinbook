@@ -11,7 +11,7 @@
 
 <div class="profile-page-posts">
   <% @user.posts.each do |post| %>
-    <%= render "posts/post", post: post %>
+    <%= render "posts/post", post: post, user: current_user %>
   <% end %>
 </div>
 

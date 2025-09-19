@@ -5,5 +5,5 @@ class Post < ApplicationRecord
   has_many :likes
   has_many :likers, through: :likes, source: :user
 
-  belongs_to :postable, polymorphic: true, dependent: :destroy
+  belongs_to :postable, polymorphic: true
 end
