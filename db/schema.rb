@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2025_09_17_150808) do
+ActiveRecord::Schema[8.0].define(version: 2025_09_22_112437) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
 
@@ -40,6 +40,21 @@ ActiveRecord::Schema[8.0].define(version: 2025_09_17_150808) do
     t.bigint "blob_id", null: false
     t.string "variation_digest", null: false
     t.index ["blob_id", "variation_digest"], name: "index_active_storage_variant_records_uniqueness", unique: true
+  end
+
+  create_table "chat_participations", force: :cascade do |t|
+    t.bigint "chat_id", null: false
+    t.bigint "participant_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["chat_id", "participant_id"], name: "index_chat_participations_on_chat_id_and_participant_id", unique: true
+    t.index ["chat_id"], name: "index_chat_participations_on_chat_id"
+    t.index ["participant_id"], name: "index_chat_participations_on_participant_id"
+  end
+
+  create_table "chats", force: :cascade do |t|
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
   end
 
   create_table "comments", force: :cascade do |t|
@@ -75,6 +90,17 @@ ActiveRecord::Schema[8.0].define(version: 2025_09_17_150808) do
     t.index ["post_id"], name: "index_likes_on_post_id"
     t.index ["user_id", "post_id"], name: "index_likes_on_user_id_and_post_id", unique: true
     t.index ["user_id"], name: "index_likes_on_user_id"
+  end
+
+  create_table "messages", force: :cascade do |t|
+    t.string "content", null: false
+    t.bigint "author_id", null: false
+    t.bigint "chat_id", null: false
+    t.boolean "is_read", default: false, null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["author_id"], name: "index_messages_on_author_id"
+    t.index ["chat_id"], name: "index_messages_on_chat_id"
   end
 
   create_table "notifications", force: :cascade do |t|
@@ -130,12 +156,16 @@ ActiveRecord::Schema[8.0].define(version: 2025_09_17_150808) do
 
   add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"
   add_foreign_key "active_storage_variant_records", "active_storage_blobs", column: "blob_id"
+  add_foreign_key "chat_participations", "chats"
+  add_foreign_key "chat_participations", "users", column: "participant_id"
   add_foreign_key "comments", "posts"
   add_foreign_key "comments", "users"
   add_foreign_key "follows", "users", column: "followee_id"
   add_foreign_key "follows", "users", column: "follower_id"
   add_foreign_key "likes", "posts"
   add_foreign_key "likes", "users"
+  add_foreign_key "messages", "chats"
+  add_foreign_key "messages", "users", column: "author_id"
   add_foreign_key "notifications", "users", column: "recipient_id"
   add_foreign_key "notifications", "users", column: "submitter_id"
   add_foreign_key "posts", "users", column: "author_id"

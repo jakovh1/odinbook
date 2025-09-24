@@ -4,4 +4,6 @@
   <%= image_tag(gravatar_avatar_url(user.email)) %>
 <% end %>
 
-<%= render "upload_avatar_form", user: user %>
+<% if current_user.id == user.id %>
+  <%= render "upload_avatar_form", user: user %>
+<% end %>

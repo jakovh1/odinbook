@@ -1,0 +1,3 @@
+<%= turbo_frame_tag "chat-turbo-frame" do %>
+  <%= render partial: "chat", locals: { chat: @chat, recipient: @recipient, message: @message, messages: @messages } %>
+<% end %>

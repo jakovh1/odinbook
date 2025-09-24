@@ -9,6 +9,13 @@
   <%= render "follow_button", user: @user %>
 </div>
 
+<div class="message-button-container">
+  <%= render "message_button", chat: @chat, user: @user %>
+</div>
+
+
+
+
 <div class="profile-page-posts">
   <% @user.posts.each do |post| %>
     <%= render "posts/post", post: post, user: current_user %>

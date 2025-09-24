@@ -80,3 +80,5 @@ gem "bootstrap-icons", "~> 1.0"
 gem "roadie-rails", "~> 3.3"
 
 gem "fastimage", "~> 2.4"
+
+gem "bulma-rails", "~> 1.0"

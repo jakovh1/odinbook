@@ -13,21 +13,29 @@ class User < ApplicationRecord
   validates :password, length: { minimum: 8 }, if: :password_required?
 
   # Posts and Comments associations
-  has_many :posts, foreign_key: "author_id"
-  has_many :comments, foreign_key: "user_id"
+  has_many :posts, foreign_key: "author_id", dependent: :destroy
+  has_many :comments, foreign_key: "user_id", dependent: :destroy
 
   # Followers - Followee associations
-  has_many :users_following, foreign_key: "follower_id", class_name: "Follow"
+  has_many :users_following, foreign_key: "follower_id", class_name: "Follow", dependent: :destroy
   has_many :followees, through: :users_following, source: :followee
 
-  has_many :users_followers, foreign_key: "followee_id", class_name: "Follow"
+  has_many :users_followers, foreign_key: "followee_id", class_name: "Follow", dependent: :destroy
   has_many :followers, through: :users_followers, source: :follower
 
-  # Like (User-Post) association
+  # Like (User-Post)
+  has_many :likes, dependent: :destroy
   has_many :liked_posts, through: :likes, source: :post
 
   has_one_attached :image
 
   # Notification association
-  has_many :notifications, foreign_key: "recipient_id"
+  has_many :notifications, foreign_key: "recipient_id", dependent: :destroy
+  has_many :triggered_notifications, class_name: "Notification", foreign_key: "submitter_id", dependent: :destroy
+
+  # Chat associations
+  has_many :chat_participations, foreign_key: "participant_id"
+  has_many :chats, through: :chat_participations
+
+  has_many :messages, foreign_key: "author_id"
 end

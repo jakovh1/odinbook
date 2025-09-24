@@ -6,6 +6,7 @@ class UsersController < ApplicationController
   end
   def show
     @user = User.includes(:posts).find_by(username: params[:username])
+    @chat = Chat.between(current_user, @user)
   end
 
   def update_avatar
