@@ -1,4 +1,7 @@
 Rails.application.routes.draw do
+  resources :chats do
+    resources :messages, only: [ :create ]
+  end
   # Notifications route
   get "notifications", to: "notifications#index", as: :notifications
 

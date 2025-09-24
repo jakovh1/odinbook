@@ -92,6 +92,8 @@ GEM
     brakeman (7.1.0)
       racc
     builder (3.3.0)
+    bulma-rails (1.0.4)
+      dartsass-rails (~> 0.5.0)
     capybara (3.40.0)
       addressable
       matrix
@@ -518,6 +520,7 @@ DEPENDENCIES
   bootstrap (~> 5.3)
   bootstrap-icons (~> 1.0)
   brakeman
+  bulma-rails (~> 1.0)
   capybara
   dartsass-rails (~> 0.5.1)
   debug

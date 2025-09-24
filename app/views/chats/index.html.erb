@@ -1,0 +1,26 @@
+<p style="color: green"><%= notice %></p>
+
+<% content_for :title, "Chats" %>
+
+<h1>Chats</h1>
+
+<div id="chats" class="chats-container">
+
+  <div class="chatrooms">
+    <% @participations.each do |participation| %>
+      
+      <%= link_to chat_path(participation.chat),
+                  data: {
+                    turbo_frame: "chat-turbo-frame",
+                    turbo_action: "advance"
+                  } do %>
+        <div class="chat-preview">
+          <h3><%= participation.participant.username %></h3>
+          <p><%= participation.chat.messages.last.content %></p>
+        </div>
+      <% end %>
+      
+    <% end %>
+  </div>
+  <%= turbo_frame_tag "chat-turbo-frame" %>
+</div>
