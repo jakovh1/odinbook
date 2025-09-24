@@ -17,7 +17,8 @@ class PostsController < ApplicationController
 
   def like
     @post = Post.find(params[:id])
-    like = Like.new(post: @post, user: current_user)
+    # like = Like.new(post: @post, user: current_user)
+    like = @post.likes.build(user: current_user)
 
     if like.save
 
@@ -74,16 +75,14 @@ class PostsController < ApplicationController
     if post_params[:content].present?
       if is_url?(post_params[:content]) && FastImage.type(post_params[:content])
         photo_post = PhotoPost.create!(image_url: post_params[:content])
-        @post = Post.new(postable: photo_post, author: current_user)
+        @post = photo_post.build_post(author: current_user)
       else
         text_post = TextPost.create!(post_params)
-        @post = Post.new(postable: text_post, author: current_user)
+        @post = text_post.build_post(author: current_user)
       end
     elsif post_params[:image].present?
-      puts post_params[:image]
-      puts FastImage.type(post_params[:image])
       photo_post = PhotoPost.create!(post_params)
-      @post = Post.new(postable: photo_post, author: current_user)
+      @post = photo_post.build_post(author: current_user)
     end
 
 
@@ -121,7 +120,7 @@ class PostsController < ApplicationController
 
   # DELETE /posts/1 or /posts/1.json
   def destroy
-    @post.destroy!
+    @post.postable.destroy!
 
     respond_to do |format|
       format.html { redirect_to posts_path, notice: "Post was successfully destroyed.", status: :see_other }
