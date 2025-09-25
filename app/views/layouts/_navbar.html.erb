@@ -1,6 +1,6 @@
 <% if user_signed_in? %>
   <%= turbo_stream_from current_user %>
-  <nav class="navbar" role="navigation" aria-label="main navigatio">
+  <nav class="navbar" role="navigation" aria-label="main navigation">
     <div class="navbar-end">
       <div class="buttons">
         <%= link_to "Home", root_path, class: 'button is-link' %>

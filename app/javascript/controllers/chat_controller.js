@@ -16,7 +16,7 @@ export default class extends Controller {
     this.chatChannel = consumer.subscriptions.create({channel: "ChatChannel", chat_id: this.chatIdTarget.value}, {
       connected: () => {
         // Called when the subscription is ready for use on the server
-        document.querySelector('.conversation-container').lastElementChild.scrollIntoView({ behavior: 'smooth', block: 'end' })
+        document.querySelector('.conversation-container').lastElementChild.scrollIntoView({ behavior: 'auto', block: 'end' })
         this.messageInputTarget.focus({ preventScroll: false, focusVisible: true })
         window.scrollTo({
             top: document.body.scrollHeight,
@@ -32,7 +32,7 @@ export default class extends Controller {
         // Called when there's incoming data on the websocket for this channel
         const messageDisplay = document.querySelector('.conversation-container')
         messageDisplay.insertAdjacentHTML('beforeend', this.template(data))
-        messageDisplay.lastElementChild.scrollIntoView({ behavior: 'smooth', block: 'end' })
+        messageDisplay.lastElementChild.scrollIntoView({ behavior: 'auto', block: 'end' })
       },
 
     });
@@ -40,7 +40,7 @@ export default class extends Controller {
 
 
   scrollToBottom() {
-    document.querySelector('.conversation-container').lastElementChild.scrollIntoView({ behavior: 'smooth', block: 'end' })
+    document.querySelector('.conversation-container').lastElementChild.scrollIntoView({ behavior: 'auto', block: 'end' })
     this.messageInputTarget.focus({ preventScroll: false, focusVisible: true })
   }
 
