@@ -16,11 +16,20 @@
                   } do %>
         <div class="chat-preview">
           <h3><%= participation.participant.username %></h3>
-          <p><%= participation.chat.messages.last.content %></p>
+          <p><%= participation.chat.messages&.last&.content %></p>
         </div>
       <% end %>
       
     <% end %>
   </div>
-  <%= turbo_frame_tag "chat-turbo-frame" %>
+  <%= turbo_frame_tag "chat-turbo-frame" do %>
+    <div class="chat-window">
+      <% if @chat %>
+        <%= render partial: "chat", locals: { chat: @chat, recipient: @recipient, message: @message, messages: @messages } %>
+      <% else %>
+        <p>Select a chat to begin.</p>
+      <% end %>
+    </div>
+  <% end %>
 </div>
+

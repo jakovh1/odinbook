@@ -14,6 +14,13 @@ class ChatsController < ApplicationController
     @recipient = Chat.find_recipient(@chat, current_user)
     @messages = @chat.messages
     @message = @chat.messages.build
+    @participations = nil
+
+    unless request.referer == "http://localhost:3000/chats"
+
+      @participations = Chat.chats_and_recipients(current_user)
+      render :index
+    end
   end
 
   # GET /chats/new
@@ -37,8 +44,7 @@ class ChatsController < ApplicationController
         @message = @chat.messages.build
       end
 
-
-      redirect_to chat_path(@chat)
+      redirect_to @chat
 
     rescue StandardError => e
       Rails.logger.error("Notification creation failed: #{e.class} - #{e.message}")
