@@ -54,11 +54,8 @@ end
 group :development do
   # Use console on exceptions pages [https://github.com/rails/web-console]
   gem "web-console"
-  gem "rack-livereload"
-  gem "guard-livereload", require: false
-  gem "guard"
-  gem "listen"
   gem "letter_opener"
+  gem "hotwire-livereload"
 end
 
 group :test do
@@ -81,4 +78,4 @@ gem "roadie-rails", "~> 3.3"
 
 gem "fastimage", "~> 2.4"
 
-gem "bulma-rails", "~> 1.0"
+gem "jsbundling-rails", "~> 1.3"

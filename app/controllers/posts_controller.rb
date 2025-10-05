@@ -7,6 +7,7 @@ class PostsController < ApplicationController
     followees_ids = current_user.followees.where(follows: { status: "accepted" }).pluck(:id)
     @posts = Post.where(author: followees_ids + [ current_user.id ]).order(created_at: :desc)
     @incoming_follow_requests = Follow.incoming_follow_requests(current_user).includes(:follower)
+    @post = current_user.posts.build
   end
 
   # GET /posts/1 or /posts/1.json
@@ -63,7 +64,7 @@ class PostsController < ApplicationController
 
   # GET /posts/new
   def new
-    @post = Post.new
+    @post = current_user.posts.build
   end
 
   # GET /posts/1/edit

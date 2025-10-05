@@ -23,12 +23,22 @@
     
     <%= stylesheet_link_tag :app, "data-turbo-track": "reload" %>
     <%= javascript_importmap_tags %>
+    <%= javascript_include_tag "application", "data-turbo-track": "reload", type: "module" %>
+
   </head>
-  <body>
+  <body class="bg-dark">
     <%= turbo_frame_tag "comment-modal" %>
 
     <%= render "layouts/toast" %>
-    <%= render "layouts/navbar" %>
-    <%= yield %>
+    <div class="flex-container">
+      <header>
+        <%= render "layouts/navbar" %>
+      </header>
+      
+      <main>
+        <%= yield %>
+      </main>
+      
+    </div>
   </body>
 </html>

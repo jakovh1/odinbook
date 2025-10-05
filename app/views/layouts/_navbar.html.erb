@@ -1,24 +1,42 @@
 <% if user_signed_in? %>
   <%= turbo_stream_from current_user %>
-  <nav class="navbar" role="navigation" aria-label="main navigation">
-    <div class="navbar-end">
-      <div class="buttons">
-        <%= link_to "Home", root_path, class: 'button is-link' %>
-        <%= link_to "Other users", users_path, class: 'button is-link' %>
-        <%= link_to "Profile", profile_path(current_user.username), class: 'button is-link' %>
-        <%= link_to notifications_path, data: {turbo_prefetch: false}, class: 'button is-link' do %>
-          <button class="nav-button">
-            <i class="bi bi-bell icon-size"></i>
-            <%= render "notifications/notifications_counter" %>
-          </button>
-          Notifications
+  <nav class="navbar bg-dark" data-bs-theme="dark" role="navigation" aria-label="main navigation">
+    <div class="container-fluid">
+      <div class="nav-links">
+        <%= link_to root_path, class: 'nav-link navbar-brand' do %>
+          <img src="<%= asset_path('odinbook_logo.svg') %>" alt="Your SVG">
         <% end %>
-        <%= link_to chats_path, data: {turbo_prefetch: false}, class: 'button is-link' do %>
-          <button class="nav-button">
-            <i class="bi bi-chat-square-text icon-size"></i>
+        <%= link_to root_path, class: 'nav-link ' + active_class(root_path)[0] do %>
+          <div class="nav-icon">
+            <i class="bi bi-house-door<%= active_class(root_path)[1] ? '-fill' : '' %> icon-size"></i>
+          </div>
+          <span>Home</span>
+        <% end %>
+        <%= link_to users_path, class: 'nav-link ' + active_class(users_path)[0] do %>
+          <div class="nav-icon">
+            <i class="bi bi-people<%= active_class(users_path)[1] ? '-fill' : '' %> icon-size"></i>
+          </div>
+          <span>Other Users</span>
+        <% end %>
+        <%= link_to profile_path(current_user.username), class: 'nav-link ' + active_class(profile_path(current_user.username))[0] do %>
+          <div class="nav-icon">
+            <i class="bi bi-person<%= active_class(profile_path(current_user.username))[1] ? '-fill' : '' %> icon-size"></i>
+          </div>
+          <span>Profile</span>
+        <% end %>
+        <%= link_to notifications_path, data: {turbo_prefetch: false}, class: 'nav-link ' + active_class(notifications_path)[0]  do %>
+          <div class="nav-icon">
+            <i class="bi bi-bell<%= active_class(notifications_path)[1] ? '-fill' : '' %> icon-size"></i>
+            <%= render "notifications/notifications_counter" %>
+          </div>
+          <span>Notifications</span>
+        <% end %>
+        <%= link_to chats_path, data: {turbo_prefetch: false}, class: 'nav-link ' + active_class(chats_path)[0]  do %>
+          <div class="nav-icon">
+            <i class="bi bi-chat-square-text<%= active_class(chats_path)[1] ? '-fill' : '' %> icon-size"></i>
             <%= render "messages/messages_counter" %>
-          </button>
-          Messages
+          </div>
+          <span>Messages</span>
         <% end %>
         <%= render "devise/shared/sign_out" %>
       </div>

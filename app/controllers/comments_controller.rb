@@ -13,7 +13,7 @@ class CommentsController < ApplicationController
   # GET /comments/new
   def new
     @post = Post.find(params[:post_id])
-    @comment = @post.comments.build
+    @comment = @post.comments.build(user: current_user)
   end
 
   # GET /comments/1/edit
@@ -23,7 +23,7 @@ class CommentsController < ApplicationController
   # POST /comments or /comments.json
   def create
     @post = Post.find(params[:post_id])
-    @comment = @post.comments.build(user: current_user, content: params[:comment][:content].strip)
+    @comment = @post.comments.build(content: params[:comment][:content].strip, user: current_user)
 
     if @comment.save
       flash.now[:alert] = "Your reply has been sent."

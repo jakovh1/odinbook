@@ -1,35 +1,37 @@
-<p style="color: green"><%= notice %></p>
-
 <% content_for :title, "Chats" %>
+<div class="chats-view-container">
+  <h3 class="view-heading">Chat</h3>
 
-<h1>Chats</h1>
+  <div id="chats" class="chats-container">
 
-<div id="chats" class="chats-container">
-
-  <div class="chatrooms">
-    <% @participations.each do |participation| %>
-      
-      <%= link_to chat_path(participation.chat),
-                  data: {
-                    turbo_frame: "chat-turbo-frame",
-                    turbo_action: "advance"
-                  } do %>
+    <div class="chatrooms">
+      <% @participations.each do |participation| %>
+          
         <div class="chat-preview">
-          <h3><%= participation.participant.username %></h3>
-          <p><%= participation.chat.messages&.last&.content %></p>
+          <a href="<%= profile_path(participation.participant.username) %>">
+            <%= image_tag(gravatar_avatar_url(participation.participant.email)) %>
+          </a>
+          <div class="chat-preview-body">
+            <h6><%= participation.participant.username %></h6>
+            <p id="last-message-chat-<%= participation.chat_id %>"><%= truncate(participation.chat.messages&.last&.content, length: 12, omission: "...") %></p>
+          </div>
+          
+          <div class="chat-preview-footer" id="message-counter-per-chat-<%= participation.chat_id %>">
+            <%= current_user.unread_messages_count_per_chat(participation.chat_id) > 0 ? current_user.unread_messages_count_per_chat(participation.chat_id) : '' %>
+          </div>
+          <%= link_to '', chat_path(participation.chat), data: {  turbo_frame: "chat-turbo-frame", turbo_action: "advance", turbo_prefetch: false  }, class: 'card-link' %>
+
         </div>
+
       <% end %>
-      
-    <% end %>
-  </div>
-  <%= turbo_frame_tag "chat-turbo-frame" do %>
-    <div class="chat-window">
+    </div>
+    <%= turbo_frame_tag "chat-turbo-frame", class: 'chat-window' do %>
       <% if @chat %>
         <%= render partial: "chat", locals: { chat: @chat, recipient: @recipient, message: @message, messages: @messages } %>
       <% else %>
         <p>Select a chat to begin.</p>
       <% end %>
-    </div>
-  <% end %>
+    
+    <% end %>
+  </div>
 </div>
-

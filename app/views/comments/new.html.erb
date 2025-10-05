@@ -1,7 +1,7 @@
 <%= turbo_frame_tag "comment-modal" do %>
   <div class="comment-modal-container">
-    <div class="modal-content">
-      <button type="button" class="btn-close" data-controller="comment-form" data-action="comment-form#buttonClose" aria-label="Close"></button>
+    <div class="modal-content bg-dark">
+      <button type="button" class="btn-close btn-close-white" data-controller="comment-form" data-action="comment-form#buttonClose" aria-label="Close"></button>
 
       <%= render "form", comment: @comment, modal: true %>
       <% if false %>

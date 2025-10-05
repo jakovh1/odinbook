@@ -1,6 +1,6 @@
 <div id="toast">
   <% flash.each do |type, msg| %>
-    <div class="<%= type %> <%= type %>-primary alert-dismissible show fade" data-controller="toast">
+    <div class="alert alert-primary alert-dismissible show fade" data-controller="toast">
       <%= msg %>
       <button type="button" class="btn-close" aria-label="Close" data-action="click->toast#dismiss"></button>
     </div>

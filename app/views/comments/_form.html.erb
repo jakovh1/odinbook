@@ -1,7 +1,8 @@
 <% modal = modal ? modal : false %>
 <%= form_with(model: comment, url: post_comments_path(comment.post), data: {controller: "comment-form",
-                                                                     action: "turbo:submit-end->comment-form#clear",
-                                                                     comment_form_modal: modal }) do |form| %>
+                                                                            action: "turbo:submit-end->comment-form#clear",
+                                                                            comment_form_modal: modal },
+                                                                            class: 'new-comment-form') do |form| %>
   <% if comment.errors.any? %>
     <div style="color: red">
    
@@ -11,10 +12,21 @@
     
     </div>
   <% end %>
-
-  <div>
-    <%= form.text_field :content, placeholder: "Post your reply", autofocus: modal ? true : false, required: true %>
+  <div class="avatar avatar-wrapper">
+    <%= link_to profile_path(current_user.username) do %>
+      <%= image_tag(gravatar_avatar_url(comment.user.email)) %>
+    <% end %>
+  </div>
+  <div class="new-comment-main-section">
+    <%= form.textarea :content, placeholder: "Post your reply", 
+                                data: {
+                                        comment_form_target: 'commentInput',
+                                        action: "input->comment-form#commentInputChanged"
+                                      },
+                                maxlength: 200,
+                                autofocus: modal ? true : false, required: true %>
+    <%= form.submit "Reply", class: 'btn submit-reply-button', data: {comment_form_target: 'submitButton'}, disabled: true %>
   </div>
  
-  <%= form.submit "Reply" %>
+  
 <% end %>

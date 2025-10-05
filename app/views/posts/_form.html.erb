@@ -1,4 +1,4 @@
-<%= form_with(model: post, data: {controller: 'post-form'}) do |form| %>
+<%= form_with(model: post, data: {controller: 'post-form'}, class: 'new-post') do |form| %>
   <% if post.errors.any? %>
     <div style="color: red">
       <h2><%= pluralize(post.errors.count, "error") %> prohibited this post from being saved:</h2>
@@ -11,30 +11,37 @@
     </div>
   <% end %>
   <div>
-    <%= form.label :content, "Post: " %>
     <%= form.textarea :content,
-                      size: "70x5",
                       value: post[:content],
-                      placeholder: "Enter the text here",
+                      placeholder: "What's happening?",
                       data: {
                         'post-form-target': 'textInput',
                         'action': 'input->post-form#textChanged'
-                      } %>
+                      },
+                      maxlength: 280,
+                      class: 'bg-dark' %>
   </div>
-  <div>
-    <%=form.label :image, style: "display: block" %>
+  <img id="preview" style="height: 300px; display: none;" data-post-form-target="filePreview" />
+  <div class="form-footer">
+    <%= label_tag 'image-upload', style: 'cursor: pointer' do %>
+      <i class="bi bi-card-image fa-3x" title="Attach an Image"></i>
+    <% end %>
     <%= form.file_field :image, 
                         value: post[:image],
+                        id: 'image-upload',
                         data: {
                           'post-form-target': 'fileInput',
                           'action': 'change->post-form#fileChanged'
-                        } %>
-  </div>
-  <div>
-    <%= form.submit value: "Publish Post",
+                        },
+                        style: 'display: none;' %>
+    
+
+    <%= form.submit value: "Post", 
                     data: {
                       'post-form-target': 'submitButton'
                     },
+                    class: 'btn submit-button pointer',
+                    title: 'Publish the Post.',
                     disabled: true %>
   </div>
 <% end %>

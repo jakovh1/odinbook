@@ -2,7 +2,7 @@
   <div class="avatar post-user-avatar">
     <%= image_tag(gravatar_avatar_url(post.author.email)) %>
   </div>
-  <div>
+  <div class="post-content-container">
     <%= link_to profile_path(post.author.username) do %>
       <div class="username post-partial-username"><%= post.author.username %></div>
     <% end %>
@@ -24,4 +24,3 @@
     </div>
   </div>
 </div>
-<br />

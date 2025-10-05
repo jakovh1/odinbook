@@ -1,0 +1,37 @@
+.notifications-container {
+
+  .notifications-list {
+
+    > div {
+      border-bottom: 1px solid #505050;
+      padding: 2em;
+      display: flex;
+    }
+
+    .notification {
+      
+      justify-content: flex-start;
+      gap: 30px;
+
+      a {
+        align-self: center;
+        p {
+          margin: 0;
+        }
+      }
+
+    }
+
+    .notification-follow {
+      flex-direction: column;
+
+      .user-item-request {
+        display: flex;
+        justify-content: space-evenly;
+        align-items: center;
+      }
+    }
+
+  }
+  
+}

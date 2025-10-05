@@ -1,14 +1,24 @@
 import { Controller } from "@hotwired/stimulus"
-import consumer from "channels/consumer"
+import consumer from "../channels/consumer"
 
 // Connects to data-controller="chat"
 export default class extends Controller {
   static targets = ["chatId", "messageInput"]
 
-  template(data) {
-    return `<p class="${data.author_id == this.element.dataset.subscriberId ? 'sender-message' : 'recipient_message'}">
+  template(data, messageClass) {
+    return `<p class="${messageClass}">
               ${data.content}
             </p>`
+  }
+
+  trigger_mark_as_read() {
+    fetch(`/chats/${this.chatIdTarget.value}`, {
+      method: "PUT",
+      headers: {
+        "Content-Type": "application/json",
+        "X-CSRF-Token": document.querySelector("[name='csrf-token']").content
+      }
+    })
   }
   
   connect() {
@@ -30,9 +40,14 @@ export default class extends Controller {
 
       received: (data) => {
         // Called when there's incoming data on the websocket for this channel
+        const messageClass = data.author_id == this.element.dataset.subscriberId ? 'sender-message' : 'recipient-message'
         const messageDisplay = document.querySelector('.conversation-container')
-        messageDisplay.insertAdjacentHTML('beforeend', this.template(data))
+        messageDisplay.insertAdjacentHTML('beforeend', this.template(data, messageClass))
         messageDisplay.lastElementChild.scrollIntoView({ behavior: 'auto', block: 'end' })
+        if (messageClass == 'recipient-message') {
+          this.trigger_mark_as_read()
+        }
+        
       },
 
     });

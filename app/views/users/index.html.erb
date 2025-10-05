@@ -1,11 +1,16 @@
-<% @users.each do |user| %>
-  <div style="display: flex">
-    <span class="avatar post-user-avatar">
-      <%= image_tag(gravatar_avatar_url(user.email)) %>
-    </span>
-    <span><%= user.username %></span>
-    <div id="follow-container-<%= user.id %>" class="follow-button-container">
-      <%= render "follow_button", user: user %>
+ <div class="users">
+  <h3 class="view-heading">Other Users</h3>
+  <% @users.each do |user| %>
+    <div class="user-item">
+      <span class="avatar post-user-avatar">
+        <%= image_tag(gravatar_avatar_url(user.email)) %>
+      </span>
+      <%= link_to profile_path(user.username), class: 'username' do %>
+        <%= user.username %>
+      <% end %>
+      <div id="follow-container-<%= user.id %>" class="follow-button-container">
+        <%= render "follow_button", user: user %>
+      </div>
     </div>
-  </div>
-<% end %>
+  <% end %>
+</div> 
