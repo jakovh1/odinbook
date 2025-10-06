@@ -80,19 +80,13 @@ test:
 #
 production:
   primary: &primary_production
-    <<: *default
-    database: odinbook_production
-    username: odinbook
-    password: <%= ENV["ODINBOOK_DATABASE_PASSWORD"] %>
-  cache:
-    <<: *primary_production
-    database: odinbook_production_cache
-    migrations_paths: db/cache_migrate
-  queue:
-    <<: *primary_production
-    database: odinbook_production_queue
-    migrations_paths: db/queue_migrate
+    # <<: *default
+    url: <%= ENV["DATABASE_URL"] %>
+    # username: odinbook
+    # password: <%= ENV["ODINBOOK_DATABASE_PASSWORD"] %>
   cable:
     <<: *primary_production
-    database: odinbook_production_cable
-    migrations_paths: db/cable_migrate
+  queue:
+    <<: *primary_production
+  cache:
+    <<: *primary_production

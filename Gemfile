@@ -79,3 +79,5 @@ gem "roadie-rails", "~> 3.3"
 gem "fastimage", "~> 2.4"
 
 gem "jsbundling-rails", "~> 1.3"
+
+gem "sendgrid-actionmailer", "~> 3.2"
