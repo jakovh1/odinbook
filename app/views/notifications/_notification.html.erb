@@ -1,28 +1,48 @@
+
+
 <% if notification.notifiable_type == 'Like' %>
-
-  <%= link_to user_post_path(notification.recipient, notification.notifiable.post) do %>
-    <p>User <%= notification.submitter.username %> has liked your post.</p>
-  <% end %>
-
+  <div class="notification">
+    <div class="avatar">
+      <%= link_to profile_path(notification.submitter.username) do %>
+        <%= image_tag(gravatar_avatar_url(notification.submitter.email)) %>
+      <% end %>
+    </div>
+  
+    <%= link_to user_post_path(notification.recipient, notification.notifiable.post) do %>
+      <p>User <%= notification.submitter.username %> has liked your post.</p>
+    <% end %>
+  </div>
 <% elsif notification.notifiable_type == "Comment" %>
 
-  <%= link_to user_post_path(notification.recipient, notification.notifiable.post) do %>
-    <p>User <%= notification.submitter.username %> has commented on your post.</p>
-  <% end %>
+  <div class="notification">
+    <div class="avatar">
+      <%= link_to profile_path(notification.submitter.username) do %>
+        <%= image_tag(gravatar_avatar_url(notification.submitter.email)) %>
+      <% end %>
+    </div>
+
+    <%= link_to user_post_path(notification.recipient, notification.notifiable.post) do %>
+      <p>User <%= notification.submitter.username %> has commented on your post.</p>
+    <% end %>
+  </div>
 
 <% elsif notification.notifiable_type == "Follow" %>
 
-  <p>User <%= link_to notification.submitter.username %> has sent you a follow request.</p>
-  
-  <div class="user-item-request" id="user_<%= notification.notifiable.follower.username.parameterize %>">
+  <div class="notification-follow">
 
-    <%= image_tag(gravatar_avatar_url(notification.notifiable.follower.email)) %>
-    <%= link_to notification.notifiable.follower.username, profile_path(notification.notifiable.follower.username) %>
-
-    <span id="follow_<%= notification.notifiable.follower_id %>" class="request-action">
-      <%= render "posts/incoming_requests_buttons", request: notification.notifiable %>
-    </span>
+    <p>User <%= link_to notification.submitter.username %> has sent you a follow request.</p>
     
-  </div>
+    <div class="user-item-request avatar" id="user_<%= notification.notifiable.follower.username.parameterize %>">
+      <%= link_to profile_path(notification.submitter.username) do %>
+        <%= image_tag(gravatar_avatar_url(notification.submitter.email)) %>
+      <% end %>
+      <%= link_to notification.notifiable.follower.username, profile_path(notification.notifiable.follower.username) %>
 
+      <span id="follow_<%= notification.notifiable.follower_id %>" class="request-action">
+        <%= render "posts/incoming_requests_buttons", request: notification.notifiable %>
+      </span>
+      
+    </div>
+
+  </div>
 <% end %>

@@ -1,11 +1,11 @@
 <div id="<%= dom_id(post, :like) %>">
   <% if post.likers.include?(user) %>
     <%= button_to dislike_path(post), method: :delete, class: "engagement-button-background" do %>
-      <i class="bi bi-heart-fill"></i> <%= post.likers.count %>
+      <i class="bi bi-heart-fill liked" title="Dislike this Post"></i> <%= post.likers.count %>
     <% end %>
   <% else %>
     <%= button_to like_path(post), method: :post, class: "engagement-button-background" do %>
-      <i class="bi bi-heart"></i> <%= post.likers.count %>
+      <i class="bi bi-heart" title="Like this Post"></i> <%= post.likers.count %>
     <% end %>
   <% end %>
 </div>

@@ -1,14 +1,13 @@
-<h3><%= recipient.username %></h3>
 <div id="<%= dom_id chat %>">
-
+  <h5><%= recipient.username %></h5>
   <div class="conversation-container">
     <% messages.each do |message| %>
-      <p class="<%= message.author_id == current_user.id ? 'sender-message' : 'recipient_message' %>">
+      <p class="<%= message.author_id == current_user.id ? 'sender-message' : 'recipient-message' %>">
         <%= message.content %>
       </p>
     <% end %>
   </div>
-  <div>
+  <div class="message-form-wrapper">
     <%= render "messages/form", chat: chat, message: message %>
   </div>
 </div>

@@ -7,14 +7,12 @@
                   action: "turbo:submit-start->chat#clearInput"
                 }, 
                 local: false do |f| %>
-    <div class="field has-addons">
-      <div class="control">
-        <%= f.hidden_field :chat_id, value: chat.id, data: {chat_target: 'chatId'} %>
-        <%= f.text_field :content, id: 'message-input', data: {chat_target: 'messageInput'}, class: 'input' %>
-      </div>
-      <div class="control">
-        <%= f.submit 'Send Message', class: 'button is-primary' %>
-      </div>
+    <div class="field has-addons form-controls">
+      <%= f.hidden_field :chat_id, value: chat.id, data: {chat_target: 'chatId'} %>
+      <%= f.text_field :content, id: 'message-input', data: {chat_target: 'messageInput'}, class: 'input message-input' %>
+      <%= button_tag type: 'submit', class: 'button is-primary send-message' do %>
+        <i class="bi bi-send"></i>
+      <% end %>
     </div>
   <% end %>
 </div>

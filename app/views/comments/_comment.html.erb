@@ -1,4 +1,13 @@
-<div id="<%= dom_id comment %>">
-  <h5><%= comment.user.username %></h5>
-  <p><%= comment.content %></p>  
+<div id="<%= dom_id comment %>" class="comment">
+  <div class="avatar avatar-wrapper">
+    <%= link_to profile_path(comment.user.username) do %>
+      <%= image_tag(gravatar_avatar_url(comment.user.email)) %>
+    <% end %>
+  </div>
+  <div class="comment-body">
+    <%= link_to profile_path(comment.user.username), class: 'username' do %>
+      <%= comment.user.username %>
+    <% end %>
+    <p><%= comment.content %></p>
+  </div>
 </div>

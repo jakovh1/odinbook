@@ -38,4 +38,18 @@ class User < ApplicationRecord
   has_many :chats, through: :chat_participations
 
   has_many :messages, foreign_key: "author_id"
+
+  def unread_messages_count
+    Message.where(chat_id: chats.select(:id))
+          .where.not(author_id: id)
+          .where(is_read: false)
+          .count
+  end
+
+  def unread_messages_count_per_chat(chat_id)
+    Message.where(chat_id: chat_id)
+           .where.not(author_id: id)
+           .where(is_read: false)
+           .count
+  end
 end

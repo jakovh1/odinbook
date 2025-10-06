@@ -4,9 +4,12 @@
 
 <%= render "comments/index", comments: @post.comments %>
 
-<div>
-  <%= link_to "Back to posts", posts_path %>
-  <% if @post.author == current_user %>
-    <%= button_to "Delete this post", @post, method: :delete %>
-  <% end %>
-</div>
+<% if false %>
+  <div>
+    <%= link_to "Back to posts", posts_path %>
+    <% if @post.author == current_user %>
+      <%= button_to "Delete this post", @post, method: :delete %>
+    <% end %>
+  </div>
+  
+<% end %>

@@ -12,9 +12,23 @@ class ChatsController < ApplicationController
     return nil unless @chat
 
     @recipient = Chat.find_recipient(@chat, current_user)
-    @messages = @chat.messages
+    @messages = @chat.ordered_messages
     @message = @chat.messages.build
     @participations = nil
+
+    @chat.mark_as_read(current_user.id)
+    unread_messages_count = current_user.unread_messages_count
+    unread_messages_count_per_chat = current_user.unread_messages_count_per_chat(@chat.id)
+    Turbo::StreamsChannel.broadcast_update_later_to(
+                                                      current_user,
+                                                      target: "message-counter",
+                                                      html: unread_messages_count > 0 ? unread_messages_count : ""
+                                                    )
+    Turbo::StreamsChannel.broadcast_update_later_to(
+                                                      current_user,
+                                                      target: "message-counter-per-chat-#{@chat.id}",
+                                                      html: unread_messages_count_per_chat > 0 ? unread_messages_count_per_chat : ""
+                                                    )
 
     unless request.referer == "http://localhost:3000/chats"
 
@@ -53,15 +67,19 @@ class ChatsController < ApplicationController
 
   # PATCH/PUT /chats/1 or /chats/1.json
   def update
-    respond_to do |format|
-      if @chat.update(chat_params)
-        format.html { redirect_to @chat, notice: "Chat was successfully updated.", status: :see_other }
-        format.json { render :show, status: :ok, location: @chat }
-      else
-        format.html { render :edit, status: :unprocessable_entity }
-        format.json { render json: @chat.errors, status: :unprocessable_entity }
-      end
-    end
+    @chat.mark_as_read(current_user.id)
+    unread_messages_count = current_user.unread_messages_count
+    unread_messages_count_per_chat = current_user.unread_messages_count_per_chat(@chat.id)
+    Turbo::StreamsChannel.broadcast_update_later_to(
+                                                      current_user,
+                                                      target: "message-counter",
+                                                      html: unread_messages_count > 0 ? unread_messages_count : ""
+                                                    )
+    Turbo::StreamsChannel.broadcast_update_later_to(
+                                                      current_user,
+                                                      target: "message-counter-per-chat-#{@chat.id}",
+                                                      html: unread_messages_count_per_chat > 0 ? unread_messages_count_per_chat : ""
+                                                    )
   end
 
   # DELETE /chats/1 or /chats/1.json

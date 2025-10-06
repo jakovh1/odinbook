@@ -12,7 +12,7 @@
   <%= button_to follow_helper_method,
                 data: data_hash,
                 method: rest_method,
-                class: "follow-button #{css_class}" do %>
+                class: "#{css_class} px-3 follow-button" do %>
     <%= follow_button_text(follow_object) %>
   <% end%>
 <% end %>

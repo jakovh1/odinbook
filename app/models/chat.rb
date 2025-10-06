@@ -4,6 +4,16 @@ class Chat < ApplicationRecord
 
   has_many :messages, dependent: :destroy
 
+  def mark_as_read(user_id)
+    messages.where.not(author_id: user_id).where(is_read: false).update_all(is_read: true)
+  end
+
+  def ordered_messages
+    messages
+      .where.not(content: nil)
+      .order(created_at: :asc)
+  end
+
   def self.between(sender, recipient)
     chat = Chat.joins(:chat_participations)
                .where(chat_participations: { participant_id: [ sender.id, recipient.id ] })

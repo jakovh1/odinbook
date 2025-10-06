@@ -1,3 +1,4 @@
 <span id="message-counter">
-  <%= current_user.messages.unread.count > 0 ? current_user.messages.unread.count : '' %>
+  <% unread_messages_count = current_user.unread_messages_count %>
+  <%= unread_messages_count > 0 ? unread_messages_count : '' %>
 </span>

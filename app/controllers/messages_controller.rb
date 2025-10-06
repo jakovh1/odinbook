@@ -22,11 +22,33 @@ class MessagesController < ApplicationController
   # POST /messages or /messages.json
   def create
     begin
-      @chat = Chat.find(params[:chat_id])
+      @chat = Chat.find(params[:message][:chat_id])
       return nil unless @chat
 
       @message = @chat.messages.create!(content: params[:message][:content], author: current_user)
+      recipient = Chat.find_recipient(@chat, current_user)
 
+
+      Turbo::StreamsChannel.broadcast_update_later_to(
+                                                        recipient,
+                                                        target: "message-counter",
+                                                        html: recipient.unread_messages_count
+                                                      )
+      Turbo::StreamsChannel.broadcast_update_later_to(
+                                                        recipient,
+                                                        target: "message-counter-per-chat-#{@chat.id}",
+                                                        html: recipient.unread_messages_count_per_chat(@chat.id)
+                                                      )
+      Turbo::StreamsChannel.broadcast_update_later_to(
+                                                        current_user,
+                                                        target: "last-message-chat-#{@chat.id}",
+                                                        html: @message.content
+                                                      )
+      Turbo::StreamsChannel.broadcast_update_later_to(
+                                                        recipient,
+                                                        target: "last-message-chat-#{@chat.id}",
+                                                        html: @message.content
+                                                      )
       ChatChannel.broadcast_to(@chat, @message)
     rescue StandardError => e
       Rails.logger.error("Notification creation failed: #{e.class} - #{e.message}")

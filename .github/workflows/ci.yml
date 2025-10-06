@@ -85,6 +85,18 @@ jobs:
           ruby-version: .ruby-version
           bundler-cache: true
 
+      - name: Install Yarn v4
+        run: corepack enable && corepack prepare yarn@4.10.3 --activate
+
+      - name: Install JS dependencies
+        run: yarn install --immutable
+
+      - name: Build JavaScript
+        run: yarn build
+
+      - name: Precompile assets
+        run: bin/rails assets:precompile
+
       - name: Run tests
         env:
           RAILS_ENV: test

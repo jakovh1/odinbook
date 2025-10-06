@@ -1,0 +1,27 @@
+.user-show-view {
+  border-bottom: 1px solid #505050;
+  padding: 2em;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  
+  #show-view-avatar {
+    display: flex;
+    form {
+      align-self: flex-end;
+      label {
+        border-radius: 20px;
+      }
+      label:hover {
+        background-color: rgba(255, 255, 255, 0.05);
+      }
+    }
+    
+  }
+
+  .profile-page-username {
+    font-size: 1.3em;
+    font-weight: 600;
+  }
+
+}

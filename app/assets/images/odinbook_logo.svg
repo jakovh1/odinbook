@@ -1,0 +1,16 @@
+<svg width="70" height="60" viewBox="0 0 70 60" xmlns="http://www.w3.org/2000/svg">
+  <!-- Book outline with two pages -->
+  <path d="M4 5 
+           H30 Q35 5 35 10 V50 Q35 55 30 55 H4 Q0 55 0 50 V10 Q0 5 4 5 Z
+           M36 5 H66 Q70 5 70 10 V50 Q70 55 66 55 H36 Q31 55 31 50 V10 Q31 5 36 5 Z"
+        fill="#fff" stroke="#333" stroke-width="2"/>
+
+  <!-- Spine line -->
+  <line x1="35" y1="5" x2="35" y2="55" stroke="#333" stroke-width="2"/>
+
+  <!-- Left page letter O -->
+  <text x="17.5" y="38" font-size="24" font-family="serif" text-anchor="middle" fill="#333">O</text>
+
+  <!-- Right page letter B -->
+  <text x="52.5" y="38" font-size="24" font-family="serif" text-anchor="middle" fill="#333">B</text>
+</svg>
