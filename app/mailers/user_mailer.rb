@@ -1,7 +1,7 @@
 class UserMailer < ApplicationMailer
   include Roadie::Rails::Automatic
 
-  default from: "noreply@odinbook.com"
+  default from: "jakovh97@gmail.com"
 
   def welcome_email
     @username = params[:username]
