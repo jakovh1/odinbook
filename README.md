@@ -1,28 +1,30 @@
 # 🅾 Odinbook
 
 A **toy social media platform** built with Ruby on Rails as part of [The Odin Project’s Rails Final Project](https://www.theodinproject.com/lessons/ruby-on-rails-rails-final-project).  
-This project demonstrates full‑stack Rails development, real‑time features, and modern frontend integration. It is not intended as a commercial app, but as a showcase of skills.
+This project demonstrates full‑stack Rails development, real‑time features, and modern frontend integration.
 
+## 🚀 Getting Started with Odinbook
 
-## 💻 To run it locally
-0. Make sure that Ruby and Bundler are installed.
-1. Clone the repository:
-   ```bash
-   git clone https://github.com/jakovh1/odinbook
-   ```
-2. Install dependencies:
-   ```bash
-   bundle install
-   yarn install
-   ```
-3. Enter the project directory:
-   ```bash
-   cd odinbook
-   ```
-4. Run the game:
-   ```bash
-   bin/dev
-   ```
+Welcome to the live demo of **[Odinbook](https://odinbook-e1fz.onrender.com/)**!  
+This project is deployed on Render’s free tier, which means the container may “sleep” after periods of inactivity. If the site hasn’t been visited for a while, the first request can take up to **a minute** to boot the container. Thanks for your patience — once it’s awake, everything runs smoothly.
+
+### 🔑 Test Accounts
+You can log in immediately using one of the pre‑seeded demo users:
+
+- **Username:** `firstUser`  
+- **Username:** `secondUser`  
+- **Username:** `thirdUser`  
+- **Password (for all):** `sifre123`
+
+Feel free to create your own account as well. New users are fully supported.
+
+### 📧 Email Notes
+When you sign up, the app will send a welcome email via SendGrid. On free‑tier deployments, these messages often land in your **Spam** folder — so be sure to check there if you don’t see it in your inbox.
+
+---
+
+👉 Jump in, explore the features, and don’t worry if the first page load feels slow — that’s just the container waking up.
+
 
 ## 🚀 Features
 - **Authentication & Authorization**  
@@ -40,7 +42,7 @@ This project demonstrates full‑stack Rails development, real‑time features, 
   - Newsfeed showing posts from the user and followed accounts  
   - Welcome email on signup
 
-- **Realtime Enhancements (extra credit)**  
+- **Realtime Enhancements**  
   - 🔄 **Live newsfeed updates** (new posts appear without refresh)  
   - 🔔 **Realtime notifications** (likes, comments, follow requests)  
   - 💬 **Live chat** between users  
@@ -57,5 +59,5 @@ This project demonstrates full‑stack Rails development, real‑time features, 
 
 ## 🚧 Future Improvements
 - Account, Post, Comment, Message Removal and Modification
-- Responsive Design
+- Responsive Design, Animations
 - OAuth Integration
