@@ -3,14 +3,23 @@ import { Controller } from "@hotwired/stimulus"
 // Connects to data-controller="comment-form"
 export default class extends Controller {
   static targets = ["commentInput", "submitButton"]
+  connect() {
+    this.submitButtonTarget.addEventListener("transitionend", (event) => {
+      event.stopPropagation()
+    })
+  }
   clear(e) {
     this.element.reset();
     this.commentInputTarget.style.height = 'auto'
     const modal = e.target.dataset.commentFormModal
-    console.log(modal)
   
     if (modal) {
-      this.close()
+      
+      this.element.parentElement.addEventListener("transitionend", () => {
+        this.close()  
+      }, { once: true })
+
+      this.element.parentElement.classList.add("fade-out")
     }
   }
 
@@ -19,11 +28,6 @@ export default class extends Controller {
     modal.removeAttribute('src');
     modal.removeAttribute('complete');
     modal.innerHTML = "";
-  }
-
-  buttonClose(e) {
-    e.preventDefault()
-    this.close()
   }
 
   commentInputChanged() {

@@ -29,12 +29,42 @@ body {
   display: flex;
   flex-direction: column;
   align-items: center;
+  button.btn-close {
+    transition: transform 300ms ease;
+    box-shadow: none;
+  }
+
+  button.btn-close:focus {
+    box-shadow: none;
+  }
   #toast {
     position: fixed;
     top: 50px;
     width: fit-content;
     align-self: center;
+    
+
+    > div {
+      opacity: 0;
+      transform: translateY(-40%);
+      transition: opacity 700ms ease-in-out, transform 700ms ease-in-out;
+    }
+
+    > div.fade-in {
+      opacity: 1;
+      transform: translateY(0%);
+    }
+
+    > div.fade-out {
+      transform: translateY(-40%);
+      opacity: 0;
+    }
   }
+
+  
+
+  
+
   background-color: darkgrey;
   color: white;
 
@@ -145,8 +175,19 @@ body {
   border-radius: 0.5rem;
   max-width: 500px;
   width: 100%;
+  opacity: 0;
+  transform: translateY(-145%);
+  transition: opacity 500ms ease-out, transform 500ms ease-out;
+}
 
-  
+.modal-content.fade-in {
+  opacity: 1;
+  transform: translateY(0%);
+}
+
+.modal-content.fade-out {
+  opacity: 0;
+  transform: translateY(-145%);
 }
 
 .cancel-button {
