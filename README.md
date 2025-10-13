@@ -11,9 +11,9 @@ This project is deployed on Render’s free tier, which means the container may 
 ### 🔑 Test Accounts
 You can log in immediately using one of the pre‑seeded demo users:
 
-- **Username:** `firstUser`  
-- **Username:** `secondUser`  
-- **Username:** `thirdUser`  
+- **Email:** `firstUser@email.com`  
+- **Email:** `secondUser@email.com`  
+- **Email:** `thirdUser@email.com`  
 - **Password (for all):** `sifre123`
 
 Feel free to create your own account as well. New users are fully supported.
