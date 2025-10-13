@@ -1,15 +1,7 @@
-<%= render @post, user: current_user %>
+<div class="post-show">
+  <%= render @post, user: current_user %>
 
-<%= render "comments/form", comment: @comment %>
+  <%= render "comments/form", comment: @comment %>
 
-<%= render "comments/index", comments: @post.comments %>
-
-<% if false %>
-  <div>
-    <%= link_to "Back to posts", posts_path %>
-    <% if @post.author == current_user %>
-      <%= button_to "Delete this post", @post, method: :delete %>
-    <% end %>
-  </div>
-  
-<% end %>
+  <%= render "comments/index", comments: @post.comments %>
+</div>

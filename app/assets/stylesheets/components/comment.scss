@@ -1,6 +1,7 @@
 .new-comment-form {
   display: flex;
   padding: 2em 2em;
+  width: 100%;
 
   .avatar-wrapper {
     img {
@@ -54,6 +55,7 @@
 }
 
 #comments {
+  width: 100%;
   .comment {
     display: flex;
     gap: 5px;
