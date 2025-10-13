@@ -1,6 +1,8 @@
 <div id="<%= dom_id post %>" class="timeline-post">
   <div class="avatar post-user-avatar">
-    <%= image_tag(gravatar_avatar_url(post.author.email)) %>
+    <%= link_to profile_path(post.author.username) do %>
+      <%= render "users/user_avatar", user: post.author %>
+    <% end %>
   </div>
   <div class="post-content-container">
     <%= link_to profile_path(post.author.username) do %>

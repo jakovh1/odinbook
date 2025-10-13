@@ -3,13 +3,13 @@
     <%= button_to chat_path(chat.id),
                   method: :get,
                   aria: "Send a message" do %>
-      <i class="bi bi-chat-square-text"></i>
+      <i class="bi bi-chat-square-text" title="Send a message."></i>
     <% end%>
   <% else %>
     <%= button_to chats_path(recipient_id: user.id),
                   method: :post,
                   aria: "Send a message" do %>
-      <i class="bi bi-chat-square-text"></i>
+      <i class="bi bi-chat-square-text" title="Send a message."></i>
     <% end%>
   <% end %>
 <% end %>
