@@ -61,10 +61,6 @@ body {
     }
   }
 
-  
-
-  
-
   background-color: darkgrey;
   color: white;
 
@@ -81,20 +77,19 @@ body {
       position: sticky;
       top: 0;
       height: 100vh;
-      margin-right: 5em;
     }
 
     main {
-      width: min-content;
       border: 1px solid #505050;
-      width: 750px;
+      width: auto;
+      min-width: 650px;
       display: flex;
       flex-direction: column;
       align-items: center;
 
-      > * {
-        width: 100%;
-      }
+      // > * {
+      //   width: 100%;
+      // }
 
       .new-post {
         border-bottom: 1px solid #505050;
@@ -135,7 +130,88 @@ body {
         }
       }
 
+      .timeline-post {
+        display: flex;
+        gap: 20px;
+        width: auto;
+        border-bottom: 1px #505050 solid;
+        padding: 1.7em 2em 0 2em;
+
+        .avatar {
+          grid-column: 1 / -1;
+        }
+
+        .post-content-container {
+          display: flex;
+          flex-direction: column;
+          gap: 15px;
+          width: 100%;
+
+          .post-preview-link {
+
+            .post-preview {
+              display: flex;
+              flex-direction: column;
+              gap: 13px;
+
+              p {
+                overflow-wrap: anywhere;
+              }
+            }
+
+            img {
+              border-radius: 16px;
+            }
+            
+          }
+
+          a {
+            text-decoration: none;
+          }
+          .post-partial-username {
+            font-weight: 500;
+            font-size: 1em;
+            text-decoration: none;
+          }
+
+          .post-partial-username:hover {
+            text-decoration: underline;
+          }
+        }
+
+        .engagement-bar {
+          display: flex;
+          color: white;
+          border-top: 1px #505050 solid;
+          justify-content: space-evenly;
+          padding: 8px 0 5px 0;
+
+          .liked {
+            color: red;
+          }
+
+          .unliked {
+            color: #A9A9A9;
+          }
+
+          .unliked:hover {
+            color: rgba(255, 0, 0, 0.795);
+          }
+
+          button {
+            color: #A9A9A9;
+            transition: color 200ms ease-out;
+          }
+
+          .comment-icon-count:hover {
+            color: #e6e6e6;
+          }
+        }
+
+      }
+
       .login-wrapper {
+        width: 650px;
         display: flex;
         flex-direction: column;
         align-items: center;
@@ -216,7 +292,7 @@ body {
 }
 
 .follow-button {
-  width: 93px;
+  width: 105px;
   color: white;
   border: 1px solid white;
   background-color: transparent;

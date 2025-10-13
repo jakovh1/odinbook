@@ -13,9 +13,14 @@
     </div>
   <% end %>
   <div class="avatar avatar-wrapper">
-    <%= link_to profile_path(current_user.username) do %>
+    <% if modal %>
       <%= image_tag(gravatar_avatar_url(comment.user.email)) %>
+    <% else %>
+      <%= link_to profile_path(current_user.username) do %>
+        <%= image_tag(gravatar_avatar_url(comment.user.email)) %>
+      <% end %>
     <% end %>
+    
   </div>
   <div class="new-comment-main-section">
     <%= form.textarea :content, placeholder: "Post your reply", 

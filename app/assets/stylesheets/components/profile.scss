@@ -1,27 +1,81 @@
-.user-show-view {
-  border-bottom: 1px solid #505050;
-  padding: 2em;
-  display: flex;
-  flex-direction: column;
-  gap: 20px;
-  
-  #show-view-avatar {
+.user {
+  width: 650px;
+  .user-show-view {
+    border-bottom: 1px solid #505050;
+    padding: 2em;
     display: flex;
-    form {
-      align-self: flex-end;
-      label {
-        border-radius: 20px;
+    flex-direction: column;
+    gap: 20px;
+
+    .action-bar {
+      display: flex;
+      gap: 20px;
+
+      .follow-button-container {
+        button {
+          border-color: #a9a9a9;
+          color: #a9a9a9;
+          text-decoration: none;
+
+          transition: all 200ms ease-out;
+        }
+
+        button:hover {
+          border-color: #e6e6e6;
+          color: #e6e6e6;
+          text-decoration: underline;
+        }
       }
-      label:hover {
-        background-color: rgba(255, 255, 255, 0.05);
+
+      
+
+      .message-button-container {
+        border-radius: 50%;
+        border: 1px solid #a9a9a9;
+        max-height: 40.8px;
+        padding: 5px;
+        transition: border-color 200ms ease-out;
+        button {
+          background-color: unset;
+          border: none;
+          color: #a9a9a9;
+          transition: color 200ms ease-out;
+          font-size: 20px;
+        }
+
+        // button:hover {
+        //   color: #e6e6e6;
+        // }
+      }
+
+      .message-button-container:hover {
+        border-color: #e6e6e6;
+
+        button {
+          color: #e6e6e6;
+        }
       }
     }
     
-  }
+    
+    #show-view-avatar {
+      display: flex;
+      form {
+        align-self: flex-end;
+        label {
+          border-radius: 20px;
+        }
+        label:hover {
+          background-color: rgba(255, 255, 255, 0.05);
+        }
+      }
+      
+    }
 
-  .profile-page-username {
-    font-size: 1.3em;
-    font-weight: 600;
-  }
+    .profile-page-username {
+      font-size: 1.3em;
+      font-weight: 600;
+    }
 
+  }
 }

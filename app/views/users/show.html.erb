@@ -1,29 +1,35 @@
-<div class="user-show-view">
-  <div id="show-view-avatar" class="avatar show-user-avatar">
-    <%= render "user_avatar", user: @user %>
-  </div>
-  <div class="profile-page-username">
-    <%= @user.username %>
-  </div>
-
-  <% unless current_user.id == @user.id %>
-    <div id="follow-container-<%= @user.id %>" class="follow-button-container">
-      <%= render "follow_button", user: @user %>
+<div class="user"> 
+  <div class="user-show-view">
+    <div id="show-view-avatar" class="avatar show-user-avatar">
+      <%= render "user_avatar", user: @user %>
+      <% if current_user.id == @user.id %>
+        <%= render "upload_avatar_form", user: @user %>
+      <% end %>
     </div>
-    <div class="message-button-container">
-      <%= render "message_button", chat: @chat, user: @user %>
+    <div class="profile-page-username">
+      <%= @user.username %>
     </div>
-  <% end %>
 
-  
-</div>
+    <% unless current_user.id == @user.id %>
+      <div class="action-bar">
+        <div id="follow-container-<%= @user.id %>" class="follow-button-container">
+          <%= render "follow_button", user: @user %>
+        </div>
+        <div class="message-button-container">
+          <%= render "message_button", chat: @chat, user: @user %>
+        </div>
+      </div>
+    <% end %>
+
+    
+  </div>
 
 
 
 
-<div class="profile-page-posts">
-  <% @user.posts.each do |post| %>
-    <%= render "posts/post", post: post, user: current_user %>
-  <% end %>
-</div>
-
+  <div class="profile-page-posts">
+    <% @user.posts.each do |post| %>
+      <%= render "posts/post", post: post, user: current_user %>
+    <% end %>
+  </div>
+</div> 
