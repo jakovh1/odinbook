@@ -15,11 +15,8 @@ class NotificationCreator
         notification
       end
 
-
     rescue StandardError => e
       Rails.logger.error("Notification creation failed: #{e.class} - #{e.message}")
-    rescue PG::Error => e
-      Rails.logger.error("PostgreSQL error during notification creation: #{e.class} - #{e.message}")
     end
   end
 

@@ -16,6 +16,9 @@ application.register("follow-button", FollowButtonController)
 import HelloController from "./hello_controller"
 application.register("hello", HelloController)
 
+import LikeController from "./like_controller"
+application.register("like", LikeController)
+
 import ModalCommentController from "./modal_comment_controller"
 application.register("modal-comment", ModalCommentController)
 

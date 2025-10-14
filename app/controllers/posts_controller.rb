@@ -17,21 +17,14 @@ class PostsController < ApplicationController
 
   def like
     @post = Post.find(params[:id])
-    # like = Like.new(post: @post, user: current_user)
     like = @post.likes.build(user: current_user)
 
     if like.save
-
-      respond_to do |format|
-        format.turbo_stream do
-          render turbo_stream: turbo_stream.replace("like_post_#{@post.id}", partial: "posts/like", locals: { post: @post, user: like.user })
-        end
-      end
-
-      ::NotificationCreator.call(submitter: current_user, recipient: @post.author, notifiable: like)
-
+      NotificationJob.perform_later(submitter_id: current_user.id, recipient_id: @post.author_id, notifiable: like)
+      head :ok
     else
       flash.now[:alert] = "An error occurred, please try again."
+      head :unprocessable_entity
       respond_to do |format|
         format.turbo_stream do
           render turbo_stream: turbo_stream.update("toast", partial: "layouts/toast")
@@ -51,8 +44,11 @@ class PostsController < ApplicationController
         end
       end
 
+      head :ok
+
     else
       flash.now[:alert] = "An error occurred, please try again."
+      head :unprocessable_entity
       respond_to do |format|
         format.turbo_stream do
           render turbo_stream: turbo_stream.update("toast", partial: "layouts/toast")
