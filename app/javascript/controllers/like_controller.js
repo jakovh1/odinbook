@@ -6,7 +6,7 @@ export default class extends Controller {
   }
 
   async like() {
-    const initialState = [...this.element.children].map(child => child.cloneNode(true))
+    const initialState = this.element.cloneNode(true)
 
     if (this.element.dataset.liked == "false") {
       this.renderFilledHeart(Number(this.element.children[1].innerHTML.trim()))
@@ -14,13 +14,15 @@ export default class extends Controller {
       const response = await fetch(`/posts/${this.element.dataset.postId}/like`, {
         method: 'POST',
         headers: {
-          "Content-Type": "application/json",
+          "Accept": "text/vnd.turbo-stream.html",
           "X-CSRF-Token": document.querySelector("[name='csrf-token']").content
         }
       })
 
       if (!response.ok) {
-        this.element.replaceChildren(...initialState)
+        this.element.replaceWith(initialState)
+        const html = await response.text()
+        Turbo.renderStreamMessage(html);
       }
     } else if (this.element.dataset.liked == "true") {
       this.renderEmptyHeart(Number(this.element.children[1].innerHTML.trim()))
@@ -28,13 +30,15 @@ export default class extends Controller {
       const response = await fetch(`/posts/${this.element.dataset.postId}/dislike`, {
         method: 'DELETE',
         headers: {
-          "Content-Type": "application/json",
+          "Accept": "text/vnd.turbo-stream.html",
           "X-CSRF-Token": document.querySelector("[name='csrf-token']").content
         }
       })
 
       if (!response.ok) {
-        this.element.replaceChildren(...initialState)
+        this.element.replaceWith(initialState)
+        const html = await response.text()
+        Turbo.renderStreamMessage(html);
       }
     }
 

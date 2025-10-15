@@ -199,6 +199,8 @@ body {
           }
 
           button {
+            display: flex;
+            gap: 5px;
             color: #A9A9A9;
             transition: color 200ms ease-out;
           }

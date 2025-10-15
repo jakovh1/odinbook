@@ -21,9 +21,13 @@ default: &default
 
 
 development:
-  <<: *default
-  database: odinbook_development
+  primary:
+    <<: *default
+    database: odinbook_development
   cable:
+    <<: *default
+    database: odinbook_development
+  queue:
     <<: *default
     database: odinbook_development
 

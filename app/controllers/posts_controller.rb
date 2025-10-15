@@ -1,5 +1,7 @@
 class PostsController < ApplicationController
+  rescue_from ActiveRecord::RecordNotFound, with: :render_error_toast
   before_action :set_post, only: %i[ show edit update destroy ]
+
 
   # GET /posts or /posts.json
   def index
@@ -23,37 +25,18 @@ class PostsController < ApplicationController
       NotificationJob.perform_later(submitter_id: current_user.id, recipient_id: @post.author_id, notifiable: like)
       head :ok
     else
-      flash.now[:alert] = "An error occurred, please try again."
-      head :unprocessable_entity
-      respond_to do |format|
-        format.turbo_stream do
-          render turbo_stream: turbo_stream.update("toast", partial: "layouts/toast")
-        end
-      end
+      render_error_toast
     end
   end
 
   def dislike
     @post = Post.find(params[:id])
     like = Like.find_by(post: @post, user: current_user)
+
     if like&.destroy
-
-      respond_to do |format|
-        format.turbo_stream do
-          render turbo_stream: turbo_stream.replace("like_post_#{@post.id}", partial: "posts/like", locals: { post: @post, user: current_user })
-        end
-      end
-
       head :ok
-
     else
-      flash.now[:alert] = "An error occurred, please try again."
-      head :unprocessable_entity
-      respond_to do |format|
-        format.turbo_stream do
-          render turbo_stream: turbo_stream.update("toast", partial: "layouts/toast")
-        end
-      end
+      render_error_toast
     end
   end
 
@@ -137,6 +120,15 @@ class PostsController < ApplicationController
       return params.require(:post).permit(:image) if params[:post]&.[](:image).present?
 
       params
+    end
+
+    def render_error_toast
+      respond_to do |format|
+        format.turbo_stream do
+          flash.now[:alert] = "An error occurred, please try again."
+          render turbo_stream: turbo_stream.replace("toast", partial: "layouts/toast"), status: :not_found
+        end
+      end
     end
 
     def is_url?(submitted_content)

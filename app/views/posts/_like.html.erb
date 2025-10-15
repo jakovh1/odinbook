@@ -18,7 +18,13 @@
   <% button_title = liked ? "Unlike this Post." : "Like this Post." %>
 
   
-  <button data-controller="like" data-liked="<%= liked %>" data-post-id="<%= post.id %>" data-action="click->like#like" class="engagement-button-background <%= liked ? "liked" : "unliked" %>">
-    <i class="<%= icon_class_list %>"></i> <span><%= post.likers.count %></span>
+  <button data-controller="like"
+          data-turbo="true"
+          data-liked="<%= liked %>" 
+          data-post-id="<%= post.id %>" 
+          data-action="click->like#like" 
+          class="engagement-button-background <%= liked ? "liked" : "unliked" %>"
+          title="<%= button_title %>">
+    <i class="<%= icon_class_list %>"></i><span><%= post.likers.count %></span>
   </button>
 </div>
