@@ -1,11 +1,30 @@
+<% if false %>
+  <div id="<%= dom_id(post, :like) %>">
+    <% if post.likes.exists?(user_id: current_user.id) %>
+      <%= button_to dislike_path(post), method: :delete, class: "engagement-button-background liked" do %>
+        <i class="bi bi-heart-fill liked" title="Dislike this Post"></i> <%= post.likers.count %>
+      <% end %>
+    <% else %>
+      <%= button_to like_path(post), method: :post, class: "engagement-button-background unliked" do %>
+        <i class="bi bi-heart" title="Like this Post"></i> <%= post.likers.count %>
+      <% end %>
+    <% end %>
+  </div>
+<% end %>
+
 <div id="<%= dom_id(post, :like) %>">
-  <% if post.likers.include?(user) %>
-    <%= button_to dislike_path(post), method: :delete, class: "engagement-button-background liked" do %>
-      <i class="bi bi-heart-fill liked" title="Dislike this Post"></i> <%= post.likers.count %>
-    <% end %>
-  <% else %>
-    <%= button_to like_path(post), method: :post, class: "engagement-button-background unliked" do %>
-      <i class="bi bi-heart" title="Like this Post"></i> <%= post.likers.count %>
-    <% end %>
-  <% end %>
+  <% liked = post.likes.exists?(user_id: current_user.id) %>
+  <% icon_class_list = liked ? "bi bi-heart-fill liked" : "bi bi-heart" %>
+  <% button_title = liked ? "Unlike this Post." : "Like this Post." %>
+
+  
+  <button data-controller="like"
+          data-turbo="true"
+          data-liked="<%= liked %>" 
+          data-post-id="<%= post.id %>" 
+          data-action="click->like#like" 
+          class="engagement-button-background <%= liked ? "liked" : "unliked" %>"
+          title="<%= button_title %>">
+    <i class="<%= icon_class_list %>"></i><span><%= post.likers.count %></span>
+  </button>
 </div>

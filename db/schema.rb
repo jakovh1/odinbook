@@ -79,7 +79,7 @@ ActiveRecord::Schema[8.0].define(version: 2025_10_07_002447) do
     t.index ["follower_id", "followee_id"], name: "index_follows_on_follower_id_and_followee_id", unique: true
     t.index ["follower_id", "status"], name: "index_follows_on_follower_id_and_status"
     t.index ["follower_id"], name: "index_follows_on_follower_id"
-    t.check_constraint "status::text = ANY (ARRAY['pending'::character varying, 'accepted'::character varying, 'blocked'::character varying]::text[])", name: "status_check"
+    t.check_constraint "status::text = ANY (ARRAY['pending'::character varying::text, 'accepted'::character varying::text, 'blocked'::character varying::text])", name: "status_check"
   end
 
   create_table "likes", force: :cascade do |t|

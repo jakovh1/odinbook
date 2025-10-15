@@ -10,6 +10,12 @@ default: &default
 
 development:
   <<: *default
+  adapter: solid_queue
+  connects_to:
+    database:
+      writing: queue
+  polling_interval: 0.1.seconds
+  message_retention: 1.day
 
 test:
   <<: *default
