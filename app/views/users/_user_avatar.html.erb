@@ -1,5 +1,5 @@
 <% if user.image.attached? %>
-  <%= image_tag(user.image, size: "80x80") %>
+  <%= image_tag(user.image, size: "80x80", alt: "Avatar of the user #{user.username}") %>
 <% else %>
-  <%= image_tag(gravatar_avatar_url(user.email)) %>
+  <%= image_tag(gravatar_avatar_url(user.email), alt: "Gravatar generated avatar of the user #{user.username}") %>
 <% end %>

@@ -23,17 +23,22 @@
   </div>
   <img id="preview" style="height: 300px; display: none;" data-post-form-target="filePreview" />
   <div class="form-footer">
-    <%= label_tag 'image-upload', style: 'cursor: pointer' do %>
-      <i class="bi bi-card-image fa-3x" title="Attach an Image"></i>
-    <% end %>
-    <%= form.file_field :image, 
+    <button type="button"
+        class="btn-icon attach-button"
+        aria-label="Attach a photo"
+        data-action="click->post-form#triggerFileInput">
+      <i class="bi bi-card-image fa-3x" title="Attach a photo" aria-label="Attach a photo" alt="Attach a photo"></i>
+    </button>
+    <div class="d-none">
+      <%= form.file_field :image, 
                         value: post[:image],
                         id: 'image-upload',
                         data: {
                           'post-form-target': 'fileInput',
                           'action': 'change->post-form#fileChanged'
                         },
-                        style: 'display: none;' %>
+                        class: 'd-none' %>
+    </div>
     
 
     <%= form.submit value: "Post", 
@@ -41,7 +46,8 @@
                       'post-form-target': 'submitButton'
                     },
                     class: 'btn submit-button pointer',
-                    title: 'Publish the Post.',
+                    title: 'Publish the Post Button.',
+                    aria_label: "Publish the Post.",
                     disabled: true %>
   </div>
 <% end %>

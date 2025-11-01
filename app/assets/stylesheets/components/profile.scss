@@ -35,6 +35,7 @@
         max-height: 40.8px;
         padding: 5px;
         transition: border-color 200ms ease-out;
+
         button {
           background-color: unset;
           border: none;
@@ -42,10 +43,6 @@
           transition: color 200ms ease-out;
           font-size: 20px;
         }
-
-        // button:hover {
-        //   color: #e6e6e6;
-        // }
       }
 
       .message-button-container:hover {
@@ -62,11 +59,14 @@
       display: flex;
       form {
         align-self: flex-end;
-        label {
+        .upload-avatar-button {
           border-radius: 20px;
         }
-        label:hover {
-          background-color: rgba(255, 255, 255, 0.05);
+        .upload-avatar-button:hover {
+          background-color: rgba(255, 255, 255, 0.075);
+        }
+        .upload-avatar-button:focus {
+          outline: 1px solid white;
         }
       }
       

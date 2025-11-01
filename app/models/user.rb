@@ -39,11 +39,37 @@ class User < ApplicationRecord
 
   has_many :messages, foreign_key: "author_id"
 
+  scope :non_following_for, ->(user) { where.not(id: user.followees.select(:id)).where.not(id: user.id) }
+
+  def to_param
+    username
+  end
+
+  def create_post(param)
+    return unless param.present?
+
+    postable =
+      if FastImage.type(param)
+        is_url?(param) ? PhotoPost.new(image_url: param) : PhotoPost.new(image: param)
+      else
+        TextPost.new(content: param)
+      end
+
+    posts.create(postable: postable)
+  end
+
+  def create_follow(followee)
+    return :already_exists if users_following.exists?(followee: followee)
+
+    follow = users_following.build(followee: followee, status: "pending")
+    follow.save ? follow : :error
+  end
+
   def unread_messages_count
     Message.where(chat_id: chats.select(:id))
-          .where.not(author_id: id)
-          .where(is_read: false)
-          .count
+            .where.not(author_id: id)
+            .where(is_read: false)
+            .count
   end
 
   def unread_messages_count_per_chat(chat_id)
@@ -51,5 +77,39 @@ class User < ApplicationRecord
            .where.not(author_id: id)
            .where(is_read: false)
            .count
+  end
+
+  def update_avatar(uploaded_file)
+    if FastImage.type(uploaded_file)
+      image.purge_later if image.attached?
+
+      image.attach(uploaded_file)
+
+      true
+    else
+      false
+    end
+  end
+
+  def chats_and_recipients
+    ChatParticipation
+      .includes(:participant, chat: :messages)
+      .where(chat_id: chats.select(:id))
+      .where.not(participant_id: id)
+      .left_joins(chat: :messages)
+      .group("chat_participations.id, chats.id")
+      .order(Arel.sql("COALESCE(MAX(messages.created_at), chats.created_at) DESC"))
+  end
+
+
+  private
+
+  def is_url?(submitted_content)
+    begin
+      uri = URI.parse(submitted_content)
+      uri.is_a?(URI::HTTP) || uri.is_a?(URI::HTTPS)
+    rescue URI::InvalidURIError
+      false
+    end
   end
 end

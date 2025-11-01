@@ -12,7 +12,7 @@ export default class extends Controller {
   }
 
   trigger_mark_as_read() {
-    fetch(`/chats/${this.chatIdTarget.value}`, {
+    fetch(`/chats/${this.element.dataset.chatId}`, {
       method: "PUT",
       headers: {
         "Content-Type": "application/json",
@@ -23,7 +23,7 @@ export default class extends Controller {
   
   connect() {
     
-    this.chatChannel = consumer.subscriptions.create({channel: "ChatChannel", chat_id: this.chatIdTarget.value}, {
+    this.chatChannel = consumer.subscriptions.create({channel: "ChatChannel", chat_uuid: this.element.dataset.chatId}, {
       connected: () => {
         // Called when the subscription is ready for use on the server
         document.querySelector('.conversation-container').lastElementChild.scrollIntoView({ behavior: 'auto', block: 'end' })

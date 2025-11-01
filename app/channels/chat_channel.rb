@@ -1,8 +1,10 @@
 class ChatChannel < ApplicationCable::Channel
+  rescue_from ActiveRecord::RecordNotFound, with: :reject_subscription
+
   def subscribed
     # stream_from "some_channel"
-    @chat = Chat.find(params[:chat_id])
-    reject unless @chat && @chat.participants.exists?(current_user.id)
+    @chat = Chat.find_by!(uuid: params[:chat_uuid])
+    reject unless @chat.participants.exists?(current_user.id)
 
     stream_for @chat
   end
@@ -13,5 +15,11 @@ class ChatChannel < ApplicationCable::Channel
   end
 
   def receive(data)
+  end
+
+  private
+
+  def reject_subscription
+    reject
   end
 end

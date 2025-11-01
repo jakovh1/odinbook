@@ -1,9 +1,9 @@
 Rails.application.routes.draw do
-  resources :chats do
+  resources :chats, param: :uuid, except: [ :new, :edit, :destroy ] do
     resources :messages, only: [ :create ]
   end
-  # Notifications route
-  get "notifications", to: "notifications#index", as: :notifications
+
+  resources :notifications, only: [ :index ]
 
   root "posts#index"
 
@@ -12,37 +12,31 @@ Rails.application.routes.draw do
   }
 
   resources :users, only: [ :index ] do
-    resources :posts, only: [ :show ]
-    resources :comments, only: [ :show ]
-
     # routing for uploading an avatar
     member do
       patch :avatar, to: "users#update_avatar"
     end
   end
+
   resources :follows, only: [ :update, :create, :destroy ]
-  resources :posts, only: [ :index, :new, :destroy, :create ] do
+
+  resources :posts, except: [ :edit, :show, :update ] do
     resources :comments, only: [ :create, :new ]
   end
 
   resources :comments, only: [ :destroy ]
 
-
-
-
-
   post "follow/:followee_id", to: "follows#create", as: :create_follow_request
 
   # Like and Unlike routes
-  post "posts/:id/like", to: "posts#like", as: :like
-  delete "posts/:id/dislike", to: "posts#dislike", as: :dislike
+  post "posts/:uuid/like", to: "posts#like", as: :like
+  delete "posts/:uuid/dislike", to: "posts#dislike", as: :dislike
 
   patch "notifications/:id/update", to: "notifications#update", as: :notification_update
+  get "/:username/post/:uuid", to: "posts#show", as: :user_post
 
   # User show route
   get "/:username", to: "users#show", as: :profile, constraints: { id: /[^notifications]/ }
-
-
 
   # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html
 

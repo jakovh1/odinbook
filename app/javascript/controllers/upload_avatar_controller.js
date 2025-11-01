@@ -5,6 +5,10 @@ export default class extends Controller {
   static targets = [ "fileInput", "form" ]
   connect() {
   }
+
+  fileUploadTrigger() {
+    this.fileInputTarget.click()
+  }
   
   fileChanged() {
     if (this.fileInputTarget.files[0]) {

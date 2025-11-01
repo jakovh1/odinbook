@@ -1,17 +1,17 @@
 <div id="message-form">
   <%= form_with model: message, 
-                url: chat_messages_path(chat.id), 
+                url: chat_messages_path(chat), 
                 data: { 
-                  controller: 'chat', 
+                  controller: 'chat',
+                  chat_id: chat.uuid,
                   subscriber_id: current_user.id,
                   action: "turbo:submit-start->chat#clearInput"
                 }, 
                 local: false do |f| %>
     <div class="field has-addons form-controls">
-      <%= f.hidden_field :chat_id, value: chat.id, data: {chat_target: 'chatId'} %>
-      <%= f.text_field :content, id: 'message-input', data: {chat_target: 'messageInput'}, class: 'input message-input' %>
-      <%= button_tag type: 'submit', class: 'button is-primary send-message' do %>
-        <i class="bi bi-send"></i>
+      <%= f.text_field :content, id: 'message-input', data: {chat_target: 'messageInput'}, class: 'input message-input', required: true %>
+      <%= button_tag type: 'submit', class: 'button is-primary send-message', aria_label: "Send Message" do %>
+        <i class="bi bi-send" alt="Send Message"></i>
       <% end %>
     </div>
   <% end %>

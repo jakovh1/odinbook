@@ -8,7 +8,6 @@
 @import "components/notifications.scss";
 @import "components/chat.scss";
 * {
-  /* Webkit browsers (Chrome, Safari, Edge) */
     ::-webkit-scrollbar {
       width: 3px;
     }
@@ -19,16 +18,16 @@
     }
 }
 
-
 .engagement-button-background {
   background-color: unset;
   border: none;
 }
 
 body {
+  overflow-y: scroll;
   display: flex;
-  flex-direction: column;
-  align-items: center;
+  justify-content: center;
+  gap: 2vw;
   button.btn-close {
     transition: transform 300ms ease;
     box-shadow: none;
@@ -37,6 +36,7 @@ body {
   button.btn-close:focus {
     box-shadow: none;
   }
+
   #toast {
     position: fixed;
     top: 50px;
@@ -64,32 +64,29 @@ body {
   background-color: darkgrey;
   color: white;
 
-  .flex-container {
-    display: flex;
-    justify-content: center;
-    width: 80vw;
+  a {
+    color: white;
+  }
 
-    a {
-      color: white;
-    }
-
-    header {
-      position: sticky;
-      top: 0;
-      height: 100vh;
-    }
-
+  header {
+    position: sticky;
+    top: 0;
+    height: 100vh;
+  }
+  .main-container {
+    border: none;
+    width: 750px;
+    height: 100vh;
+    flex-shrink: 2;
     main {
       border: 1px solid #505050;
-      width: auto;
+      width: fit-content;
       min-width: 650px;
       display: flex;
+      min-height: fit-content;
+      height: 100%;
       flex-direction: column;
       align-items: center;
-
-      // > * {
-      //   width: 100%;
-      // }
 
       .new-post {
         border-bottom: 1px solid #505050;
@@ -122,12 +119,20 @@ body {
           color: rgb(15, 20, 25);
           opacity: var(--bs-btn-enabled-opacity);
           border-color: rgba(0, 0, 0, 0);
-          background-color: rgb(239, 243, 244);
+          background-color: rgba(239, 243, 244, 0.966);
+          outline: rgb(255, 255, 255);
         }
 
         .submit-button:hover {
           background-color: rgb(255, 255, 255);
         }
+
+        .submit-button:focus {
+          background-color: rgb(255, 255, 255);
+          outline: 1px solid rgb(255, 255, 255);
+          outline-offset: 3px;
+        }
+        
       }
 
       .timeline-post {
@@ -310,8 +315,6 @@ button {
   transition: all 0.2s ease-in-out;
 }
 
-
-
 .request-action {
   display: inherit;
   gap: 10em;
@@ -320,7 +323,6 @@ button {
 .avatar img {
   border-radius: 64px;
 }
-
 
 .view-heading {
   text-align: center;

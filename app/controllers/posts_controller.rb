@@ -1,39 +1,29 @@
 class PostsController < ApplicationController
-  rescue_from ActiveRecord::RecordNotFound, with: :render_error_toast
-  before_action :set_post, only: %i[ show edit update destroy ]
-
-
   # GET /posts or /posts.json
   def index
-    followees_ids = current_user.followees.where(follows: { status: "accepted" }).pluck(:id)
-    @posts = Post.where(author: followees_ids + [ current_user.id ]).order(created_at: :desc)
-    @incoming_follow_requests = Follow.incoming_follow_requests(current_user).includes(:follower)
+    @posts = Post.newsfeed_for(current_user)
     @post = current_user.posts.build
   end
 
   # GET /posts/1 or /posts/1.json
   def show
-    @post = Post.includes(:author).find(params[:id])
+    @post = Post.includes(:author).find_by!(uuid: params[:uuid])
     @comment = Comment.new(user: current_user, post: @post)
   end
 
   def like
-    @post = Post.find(params[:id])
-    like = @post.likes.build(user: current_user)
+    post = Post.find_by!(uuid: params[:uuid])
+    like = post.likes.create!(user: current_user)
 
-    if like.save
-      NotificationJob.perform_later(submitter_id: current_user.id, recipient_id: @post.author_id, notifiable: like)
-      head :ok
-    else
-      render_error_toast
-    end
+    NotificationJob.perform_later(submitter_id: current_user.id, recipient_id: post.author_id, notifiable: like)
+    head :ok
   end
 
   def dislike
-    @post = Post.find(params[:id])
-    like = Like.find_by(post: @post, user: current_user)
+    post = Post.find_by!(uuid: params[:uuid])
+    like = Like.find_by!(post: post, user: current_user)
 
-    if like&.destroy
+    if like.destroy
       head :ok
     else
       render_error_toast
@@ -45,98 +35,26 @@ class PostsController < ApplicationController
     @post = current_user.posts.build
   end
 
-  # GET /posts/1/edit
-  def edit
-  end
-
   # POST /posts or /posts.json
   def create
-    if post_params[:content].present?
-      if is_url?(post_params[:content]) && FastImage.type(post_params[:content])
-        photo_post = PhotoPost.create!(image_url: post_params[:content])
-        @post = photo_post.build_post(author: current_user)
-      else
-        text_post = TextPost.create!(post_params)
-        @post = text_post.build_post(author: current_user)
-      end
-    elsif post_params[:image].present?
-      photo_post = PhotoPost.create!(post_params)
-      @post = photo_post.build_post(author: current_user)
-    end
+    post = current_user.create_post(post_param)
 
-
-    respond_to do |format|
-      if @post&.save
-        format.html { redirect_to user_post_path(current_user.id, @post.id), notice: "Post was successfully created." }
-
-        @post.author.followers.each do |follower|
-          Turbo::StreamsChannel.broadcast_prepend_later_to(
-                                                            follower,
-                                                            target: "posts",
-                                                            partial: "posts/post",
-                                                            locals: { post: @post, user: follower }
-                                                          )
-        end
-      else
-        @post = Post.new
-        format.html { render :new, status: :unprocessable_content }
-      end
-    end
-  end
-
-  # PATCH/PUT /posts/1 or /posts/1.json
-  def update
-    respond_to do |format|
-      if @post.update(post_params)
-        format.html { redirect_to @post, notice: "Post was successfully updated.", status: :see_other }
-        format.json { render :show, status: :ok, location: @post }
-      else
-        format.html { render :edit, status: :unprocessable_entity }
-        format.json { render json: @post.errors, status: :unprocessable_entity }
-      end
-    end
-  end
-
-  # DELETE /posts/1 or /posts/1.json
-  def destroy
-    @post.postable.destroy!
-
-    respond_to do |format|
-      format.html { redirect_to posts_path, notice: "Post was successfully destroyed.", status: :see_other }
-      format.json { head :no_content }
+    if post&.persisted?
+      PostBroadcastJob.perform_later(post.id)
+      redirect_to user_post_path(current_user.username, post.uuid), alert: "Post was successfully created."
+    else
+      flash.now[:alert] = "Either enter a text or attach a photo."
+      ::TurboReplacer.call(controller_instance: self, dom_target: "toast", partial: "layouts/toast")
     end
   end
 
   private
-    # Use callbacks to share common setup or constraints between actions.
-    def set_post
-      @post = Post.find(params.expect(:id))
+
+  def post_param
+    if params[:post]&.[](:content).present?
+      params.require(:post).permit(:content)[:content]
+    elsif params[:post]&.[](:image).present?
+      params.require(:post).permit(:image)[:image]
     end
-
-    # Only allow a list of trusted parameters through.
-    def post_params
-      return params.require(:post).permit(:content) if params[:post]&.[](:content).present?
-
-      return params.require(:post).permit(:image) if params[:post]&.[](:image).present?
-
-      params
-    end
-
-    def render_error_toast
-      respond_to do |format|
-        format.turbo_stream do
-          flash.now[:alert] = "An error occurred, please try again."
-          render turbo_stream: turbo_stream.replace("toast", partial: "layouts/toast"), status: :not_found
-        end
-      end
-    end
-
-    def is_url?(submitted_content)
-      begin
-        uri = URI.parse(submitted_content)
-        uri.is_a?(URI::HTTP) || uri.is_a?(URI::HTTPS)
-      rescue URI::InvalidURIError
-        false
-      end
-    end
+  end
 end

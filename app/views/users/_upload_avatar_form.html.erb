@@ -2,19 +2,24 @@
                                      multipart: true,
                                      data: {
                                         controller: 'upload-avatar',
-                                        'upload-avatar-target': 'form'
+                                        upload_avatar_target: 'form'
                                      }) do %> 
-  <label for="avatarInput" class="btn btn-outline">
+  <button type="button"
+          class="btn btn-outline upload-avatar-button"
+          aria-label="Upload an Avatar"
+          data-action="click->upload-avatar#fileUploadTrigger">
     <i class="bi bi-pencil-square text-white" title="Change avatar"></i>
-  </label>
-  <%= file_field_tag :image, 
-                  value: :image,
-                  id: 'avatarInput',
-                  class: 'd-none',
-                  data: {
-                    action: "change->upload-avatar#fileChanged",
-                    'upload-avatar-target': 'fileInput'
-                  },
-                  required: true 
-  %>
+  </button>
+  <div class="d-none">
+    <%= file_field_tag :image, 
+                    value: :image,
+                    id: 'avatarInput',
+                    class: 'd-none',
+                    data: {
+                      action: "change->upload-avatar#fileChanged",
+                      upload_avatar_target: 'fileInput'
+                    },
+                    required: true 
+    %>
+  </div>
 <% end %>
