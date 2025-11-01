@@ -14,7 +14,6 @@
     display: flex;
     flex-direction: column;
     flex: 5;
-    gap: 20px;
 
     textarea {
       color: white;
@@ -40,6 +39,11 @@
     opacity: var(--bs-btn-enabled-opacity);
     border-color: rgba(0, 0, 0, 0);
     background-color: rgb(239, 243, 244);
+  }
+
+  .submit-reply-button:focus {
+    outline-offset: 3px;
+    outline: 1px solid white;
   }
 
   .submit-reply-button:hover {

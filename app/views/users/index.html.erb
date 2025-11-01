@@ -3,7 +3,9 @@
   <% @users.each do |user| %>
     <div class="user-item">
       <span class="avatar post-user-avatar">
-        <%= image_tag(gravatar_avatar_url(user.email)) %>
+        <%= link_to profile_path(user.username), class: 'username' do %>
+          <%= render "user_avatar", user: user %>
+        <% end %>
       </span>
       <%= link_to profile_path(user.username), class: 'username' do %>
         <%= user.username %>

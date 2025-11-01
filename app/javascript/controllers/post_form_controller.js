@@ -8,6 +8,10 @@ export default class extends Controller {
     this.fileChanged()
   }
 
+  triggerFileInput() {
+    this.fileInputTarget.click()
+  }
+
   textChanged() {
     this.textInputTarget.style.height = 'auto'
     this.textInputTarget.style.height = this.textInputTarget.scrollHeight + 'px' 

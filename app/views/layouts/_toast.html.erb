@@ -2,7 +2,7 @@
   <% flash.each do |type, msg| %>
     <div class="alert alert-primary alert-dismissible" data-controller="toast">
       <%= msg %>
-      <button type="button" class="btn-close" aria-label="Close" data-action="click->toast#dismiss"></button>
+      <button type="button" class="btn-close" aria-label="Close modal" data-action="click->toast#dismiss"></button>
     </div>
   <% end %>
 </div>

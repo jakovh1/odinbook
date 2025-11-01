@@ -5,11 +5,11 @@
   <div id="chats" class="chats-container">
 
     <div class="chatrooms">
-      <% @participations.each do |participation| %>
+      <% @chat_participations.each do |participation| %>
           
         <div class="chat-preview">
           <a href="<%= profile_path(participation.participant.username) %>">
-            <%= image_tag(gravatar_avatar_url(participation.participant.email)) %>
+            <%= render "users/user_avatar", user: participation.participant %>
           </a>
           <div class="chat-preview-body">
             <h6><%= participation.participant.username %></h6>
@@ -19,7 +19,7 @@
           <div class="chat-preview-footer" id="message-counter-per-chat-<%= participation.chat_id %>">
             <%= current_user.unread_messages_count_per_chat(participation.chat_id) > 0 ? current_user.unread_messages_count_per_chat(participation.chat_id) : '' %>
           </div>
-          <%= link_to '', chat_path(participation.chat), data: {  turbo_frame: "chat-turbo-frame", turbo_action: "advance", turbo_prefetch: false  }, class: 'card-link' %>
+          <%= link_to '', chat_path(participation.chat), data: { turbo_stream: true, turbo_frame: "chat-turbo-frame", turbo_action: "advance", turbo_prefetch: false  }, class: 'card-link' %>
 
         </div>
 

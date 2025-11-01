@@ -1,16 +1,18 @@
-<div class="welcome-mail-container">
-  <div class="header">
-    <h2>Welcome to Odinbook</h2>
+<body style="display: flex; justify-content: center;">
+  <div class="welcome-mail-container">
+    <div class="header">
+      <h2>Welcome to Odinbook</h2>
+    </div>
+    <div class="body">
+      <h3>Hello <%= @username %>,</h3>
+      <p>
+        your registration has been successfully processed.
+      </p>
+      <p>
+        We wish you endless hours of communitying and chatting.
+      </p>
+      <p>Sincerely,</p>
+      <p>Your Odinbook Team</p>
+    </div>
   </div>
-  <div class="body">
-    <h3>Hello <%= @username %>,</h3>
-    <p>
-      your registration has been successfully processed.
-    </p>
-    <p>
-      We wish you endless hours of communitying and chatting.
-    </p>
-    <p>Sincerely,</p>
-    <p>Your Odinbook Team</p>
-  </div>
-</div>
+</body>

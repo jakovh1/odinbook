@@ -8,7 +8,7 @@
     <%= link_to profile_path(post.author.username) do %>
       <div class="username post-partial-username"><%= post.author.username %></div>
     <% end %>
-    <%= link_to user_post_path(post.author_id, post.id), class: "post-preview-link", data: { turbo_prefetch: false } do %>
+    <%= link_to user_post_path(post.author.username, post.uuid), class: "post-preview-link", data: { turbo_prefetch: false } do %>
       <div class="post-preview">
 
         <% if post.postable_type == "TextPost" %>

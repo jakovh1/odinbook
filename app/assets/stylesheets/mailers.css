@@ -1,7 +1,3 @@
-body {
-  display: flex;
-  justify-content: center;
-}
 body .welcome-mail-container {
   display: flex;                                                        
   align-items: center;

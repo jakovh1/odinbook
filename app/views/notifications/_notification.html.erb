@@ -4,7 +4,7 @@
   <div class="notification">
     <div class="avatar">
       <%= link_to profile_path(notification.submitter.username) do %>
-        <%= image_tag(gravatar_avatar_url(notification.submitter.email)) %>
+        <%= render "users/user_avatar", user: notification.submitter %>
       <% end %>
     </div>
   
@@ -17,7 +17,7 @@
   <div class="notification">
     <div class="avatar">
       <%= link_to profile_path(notification.submitter.username) do %>
-        <%= image_tag(gravatar_avatar_url(notification.submitter.email)) %>
+        <%= render "users/user_avatar", user: notification.submitter %>
       <% end %>
     </div>
 
@@ -34,7 +34,7 @@
     
     <div class="user-item-request avatar" id="user_<%= notification.notifiable.follower.username.parameterize %>">
       <%= link_to profile_path(notification.submitter.username) do %>
-        <%= image_tag(gravatar_avatar_url(notification.submitter.email)) %>
+        <%= render "users/user_avatar", user: notification.submitter %>
       <% end %>
       <%= link_to notification.notifiable.follower.username, profile_path(notification.notifiable.follower.username) %>
 

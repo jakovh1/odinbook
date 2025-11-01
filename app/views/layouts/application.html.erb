@@ -30,15 +30,13 @@
     <%= turbo_frame_tag "comment-modal" %>
 
     <%= render "layouts/toast" %>
-    <div class="flex-container">
-      <header>
-        <%= render "layouts/navbar" %>
-      </header>
-      
+    <header aria-label="navigation">
+      <%= render "layouts/navbar" %>
+    </header>
+    <div class="main-container">
       <main>
         <%= yield %>
       </main>
-      
     </div>
   </body>
 </html>

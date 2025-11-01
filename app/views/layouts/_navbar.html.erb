@@ -4,7 +4,7 @@
     <div class="container-fluid">
       <div class="nav-links">
         <%= link_to root_path, class: 'nav-link navbar-brand' do %>
-          <img src="<%= asset_path('odinbook_logo.svg') %>" alt="Your SVG">
+          <img src="<%= asset_path('odinbook_logo.svg') %>" alt="Odinbook logo" aria-label="Odinbook logo">
         <% end %>
         <%= link_to root_path, class: 'nav-link ' + active_class(root_path)[0] do %>
           <div class="nav-icon">

@@ -11,7 +11,7 @@ export default class extends Controller {
     if (this.element.dataset.liked == "false") {
       this.renderFilledHeart(Number(this.element.children[1].innerHTML.trim()))
 
-      const response = await fetch(`/posts/${this.element.dataset.postId}/like`, {
+      const response = await fetch(`/posts/${this.element.dataset.postUuid}/like`, {
         method: 'POST',
         headers: {
           "Accept": "text/vnd.turbo-stream.html",
@@ -27,7 +27,7 @@ export default class extends Controller {
     } else if (this.element.dataset.liked == "true") {
       this.renderEmptyHeart(Number(this.element.children[1].innerHTML.trim()))
 
-      const response = await fetch(`/posts/${this.element.dataset.postId}/dislike`, {
+      const response = await fetch(`/posts/${this.element.dataset.postUuid}/dislike`, {
         method: 'DELETE',
         headers: {
           "Accept": "text/vnd.turbo-stream.html",

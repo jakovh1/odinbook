@@ -1,6 +1,6 @@
 <% if user.id != current_user.id %> 
   <% if chat %>
-    <%= button_to chat_path(chat.id),
+    <%= button_to chat_path(chat),
                   method: :get,
                   aria: "Send a message" do %>
       <i class="bi bi-chat-square-text" title="Send a message."></i>

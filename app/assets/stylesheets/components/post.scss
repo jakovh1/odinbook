@@ -3,7 +3,12 @@
 
   .new-post {
     .form-footer {
-      label {
+      .attach-button {
+        border: none;
+        background-color: inherit;
+        height: fit-content;
+        width: fit-content;
+        color: white;
 
         i {
           font-size: x-large;

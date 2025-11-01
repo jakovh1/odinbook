@@ -12,6 +12,9 @@ Rails.application.configure do
   # Show full error reports.
   config.consider_all_requests_local = true
 
+  config.action_controller.default_url_options = { host: "127.0.0.1", port: 3000 }
+
+
   # Enable server timing.
   config.server_timing = true
 
@@ -30,6 +33,9 @@ Rails.application.configure do
 
   # Store uploaded files on the local file system (see config/storage.yml for options).
   config.active_storage.service = :local
+  config.active_storage.resolve_model_to_route = :rails_storage_proxy
+  config.active_storage.default_url_options = { host: "http://127.0.0.1:3000" }
+
 
   # Don't care if the mailer can't send.
   config.action_mailer.raise_delivery_errors = false
