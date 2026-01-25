@@ -7,6 +7,7 @@ class CommentsController < ApplicationController
   # POST /comments or /comments.json
   def create
     @post = Post.find_by!(uuid: params[:post_id])
+
     return render_error_toast if params[:comment][:content].strip.blank?
 
     @comment = @post.comments.create!(content: params[:comment][:content].strip, user: current_user)
