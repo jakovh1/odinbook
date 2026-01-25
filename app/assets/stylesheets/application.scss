@@ -150,7 +150,7 @@ body {
           display: flex;
           flex-direction: column;
           gap: 15px;
-          width: 100%;
+          width: 82%;
 
           .post-preview-link {
 
@@ -166,6 +166,7 @@ body {
 
             img {
               border-radius: 16px;
+              width: 100%;
             }
             
           }
@@ -330,4 +331,8 @@ button {
   padding: 1em;
 
   margin: 0;
+}
+
+@media (max-width: 928px) {
+  
 }

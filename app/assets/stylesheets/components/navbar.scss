@@ -77,3 +77,26 @@ nav {
   }
 }
 
+@media (max-width: 928px) {
+  nav {
+    width: fit-content;
+
+    .nav-link.navbar-brand {
+      margin-right: 0;
+
+      img {
+        width: 37px;
+      }
+    }
+
+    .nav-link {
+      gap: 0;
+
+      span {
+        display: none;
+      }
+    }
+  }
+}
+
+
